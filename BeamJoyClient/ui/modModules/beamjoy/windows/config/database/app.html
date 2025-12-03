@@ -1,0 +1,55 @@
+<style>
+    bj-config-database .filter {
+        transition: padding 0.5s, flex-grow 0.5s ease-in-out,
+            max-width 0.5s ease-in-out;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+    bj-config-database .filter.hide {
+        flex-grow: 0.0001;
+        max-width: 0;
+        padding: 0;
+    }
+</style>
+
+<div class="d-flex flex-column h-100 overflow-hidden">
+    <div class="d-flex" ng-if="$ctrl.init">
+        <bj-select
+            ng-model="$ctrl.selectedPlayer"
+            options="$ctrl.playerOptions"
+        ></bj-select>
+        <div class="flex-grow-1"></div>
+        <input
+            type="text"
+            class="filter"
+            ng-model="$ctrl.filter"
+            ng-class="{hide: $ctrl.filterEnabled === false}"
+        />
+        <button
+            class="btn"
+            ng-class="{primary: $ctrl.filterEnabled}"
+            ng-click="$ctrl.toggleFilter()"
+        >
+            <icon name="filter"></icon>
+        </button>
+    </div>
+    <hr class="mt-2 mb-1" ng-if="$ctrl.init" />
+    <div class="flex-grow-1 overflow-auto">
+        <div
+            class="h-100 d-flex justify-center align-center"
+            ng-if="!$ctrl.init"
+        >
+            <icon name="loading" style="height: 5em"></icon>
+        </div>
+        <div
+            class="d-flex justify-center"
+            ng-if="$ctrl.init && !$ctrl.data[$ctrl.selectedPlayer]"
+        >
+            <h4>{{"beamjoy.common.noMatches"|translate}}</h4>
+        </div>
+        <bj-config-database-details
+            ng-if="$ctrl.init && $ctrl.data[$ctrl.selectedPlayer]"
+            player="$ctrl.data[$ctrl.selectedPlayer]"
+        ></bj-config-database-details>
+    </div>
+</div>

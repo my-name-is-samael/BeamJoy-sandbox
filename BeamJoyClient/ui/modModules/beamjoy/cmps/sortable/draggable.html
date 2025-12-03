@@ -1,0 +1,15 @@
+<style>
+    bj-sort-draggable > .horizontal svg {
+        transform: rotate(90deg);
+    }
+</style>
+
+<div
+    class="w-fit-content h-fitcontent p-1 cursor-grab"
+    ng-class="{horizontal: $ctrl.horizontal === true}"
+    draggable="true"
+    ng-dragstart="$ctrl.startDrag($event)"
+    ng-dragend="$ctrl.endDrag($event)"
+>
+    <icon class="light" name="drag"></icon>
+</div>

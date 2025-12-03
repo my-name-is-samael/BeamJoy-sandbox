@@ -1,0 +1,121 @@
+<table>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.ServerNameColor"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.data.ServerNameColor = $ctrl.resetValues.ServerNameColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.data.ServerNameColor"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.ServerTextColor"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.data.ServerTextColor = $ctrl.resetValues.ServerTextColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.data.ServerTextColor"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.EventColor"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.data.EventColor = $ctrl.resetValues.EventColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.data.EventColor"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.BroadcastColor"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.data.BroadcastColor = $ctrl.resetValues.BroadcastColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.data.BroadcastColor"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.ShowStaffTag"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle ng-model="$ctrl.data.ShowStaffTag"></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.chat.WelcomeMessage"|translate}}
+        </td>
+    </tr>
+    <tr ng-repeat="el in $ctrl.data.WelcomeMessage">
+        <td class="text-right">{{el.lang}}</td>
+        <td>
+            <input type="text" ng-model="el.message" class="w-100" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn danger w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

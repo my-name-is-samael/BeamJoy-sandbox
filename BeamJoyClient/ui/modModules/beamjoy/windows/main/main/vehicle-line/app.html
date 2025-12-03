@@ -1,0 +1,66 @@
+<span title="{{$ctrl.vehicle.jbeam}}">{{$ctrl.vehicle.label}}</span>
+
+<div
+    ng-hide="$ctrl.actions.focus === undefined"
+    class="btn primary"
+    ng-class="{disabled: !$ctrl.actions.focus}"
+    ng-click="$ctrl.action($event,'focus')"
+>
+    <icon
+        name="focus"
+        class="small"
+        title="{{'beamjoy.window.main.playerlist.actions.focus' | translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.freeze === undefined"
+    class="btn"
+    ng-class="{danger: !$ctrl.vehicle.froze, success: $ctrl.vehicle.froze, disabled: !$ctrl.actions.freeze}"
+    ng-click="$ctrl.action($event,'freeze')"
+>
+    <icon
+        name="{{$ctrl.vehicle.froze ? 'unfreeze' : 'freeze'}}"
+        class="small"
+        title="{{($ctrl.vehicle.froze ?
+            'beamjoy.window.main.playerlist.actions.unfreeze' :
+            'beamjoy.window.main.playerlist.actions.freeze') | translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.engine === undefined"
+    class="btn"
+    ng-class="{danger: !$ctrl.vehicle.shut, success: $ctrl.vehicle.shut, disabled: !$ctrl.actions.engine}"
+    ng-click="$ctrl.action($event,'engine')"
+>
+    <icon
+        name="{{$ctrl.vehicle.shut ? 'play' : 'pause'}}"
+        class="small"
+        title="{{($ctrl.vehicle.shut ?
+            'beamjoy.window.main.playerlist.actions.start' :
+            'beamjoy.window.main.playerlist.actions.stop') | translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.delete === undefined"
+    class="btn danger"
+    ng-class="{disabled: !$ctrl.actions.delete}"
+    ng-click="$ctrl.action($event,'delete')"
+>
+    <icon
+        name="delete"
+        class="small"
+        title="{{'beamjoy.window.main.playerlist.actions.delete' | translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.explode === undefined"
+    class="btn danger"
+    ng-class="{disabled: !$ctrl.actions.explode}"
+    ng-click="$ctrl.action($event,'explode')"
+>
+    <icon
+        name="explode"
+        class="small"
+        title="{{'beamjoy.window.main.playerlist.actions.explode' | translate}}"
+    ></icon>
+</div>

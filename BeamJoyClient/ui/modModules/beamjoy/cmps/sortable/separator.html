@@ -1,0 +1,12 @@
+<style>
+    .bj-sort-separator.active {
+        background-color: rgba(252, 164, 49, 0.548);
+    }
+</style>
+
+<div
+    class="bj-sort-separator d-flex align-center justify-center h-fitcontent m-0 p-0"
+    ng-class="{active: $ctrl.active === true, 'cursor-crosshair': $ctrl.active === true}"
+    ng-drop="true"
+    ng-transclude
+></div>

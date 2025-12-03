@@ -1,0 +1,3 @@
+{
+  "bindings": [{ "control": "f4", "action": "toggleBeamJoyMenu" }]
+}

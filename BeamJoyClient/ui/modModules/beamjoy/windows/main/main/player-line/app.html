@@ -1,0 +1,54 @@
+<span>{{$ctrl.player.playerName}} ({{$ctrl.groupLabel}})</span>
+
+<div
+    ng-hide="$ctrl.actions.focus === undefined"
+    class="btn primary"
+    ng-class="{disabled: !$ctrl.actions.focus}"
+    ng-click="$ctrl.action($event,'focus')"
+>
+    <icon
+        name="focus"
+        class="small"
+        title="{{'beamjoy.window.main.playerlist.actions.focus'|translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.freeze === undefined"
+    class="btn"
+    ng-class="{danger: !$ctrl.player.froze, success: $ctrl.player.froze, disabled: !$ctrl.actions.freeze}"
+    ng-click="$ctrl.action($event,'freeze')"
+>
+    <icon
+        name="{{$ctrl.player.froze ? 'unfreeze' : 'freeze'}}"
+        class="small"
+        title="{{($ctrl.player.froze ?
+            'beamjoy.window.main.playerlist.actions.unfreezeAll' :
+            'beamjoy.window.main.playerlist.actions.freezeAll')|translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.engine === undefined"
+    class="btn"
+    ng-class="{danger: !$ctrl.player.shut, success: $ctrl.player.shut, disabled: !$ctrl.actions.engine}"
+    ng-click="$ctrl.action($event,'engine')"
+>
+    <icon
+        name="{{$ctrl.player.shut ? 'play' : 'pause'}}"
+        class="small"
+        title="{{($ctrl.player.shut ?
+            'beamjoy.window.main.playerlist.actions.startAll' :
+            'beamjoy.window.main.playerlist.actions.stopAll')|translate}}"
+    ></icon>
+</div>
+<div
+    ng-hide="$ctrl.actions.delete === undefined"
+    class="btn danger"
+    ng-class="{disabled: !$ctrl.actions.delete}"
+    ng-click="$ctrl.action($event,'delete')"
+>
+    <icon
+        name="delete"
+        class="small"
+        title="{{'beamjoy.window.main.playerlist.actions.deleteAll'|translate}}"
+    ></icon>
+</div>

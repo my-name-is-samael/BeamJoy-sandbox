@@ -1,0 +1,92 @@
+<table>
+    <tr>
+        <td colspan="2">
+            <button
+                class="btn info d-flex gap-1 align-center"
+                ng-click="$ctrl.openSettings($event)"
+            >
+                <icon name="open" class="small"></icon>
+                <span
+                    >{{"beamjoy.window.config.tabs.general.environment.openSettings"|translate}}</span
+                >
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.environment.timeSync"|translate}}
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.timeSync"></bj-toggle>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.environment.dayLength"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <span style="min-width: 5.8em">
+                    {{$ctrl.data.dayLength}}
+                    {{"beamjoy.time.minutes"|translate}}
+                </span>
+                <bj-slider
+                    ng-model="$ctrl.data.dayLength"
+                    min="4"
+                    max="300"
+                    step="1"
+                    class="flex-grow-1"
+                ></bj-slider>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.environment.nightBrightnessMultiplier"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <span style="min-width: 2em">
+                    x{{$ctrl.data.nightBrightnessMultiplier}}
+                </span>
+                <bj-slider
+                    ng-model="$ctrl.data.nightBrightnessMultiplier"
+                    min="1"
+                    max="10"
+                    step=".1"
+                    class="flex-grow-1"
+                ></bj-slider>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.environment.gravitySync"|translate}}
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.gravitySync"></bj-toggle>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="pt-1 d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn danger w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

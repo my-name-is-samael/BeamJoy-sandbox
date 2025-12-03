@@ -1,0 +1,357 @@
+local M = {}
+--- gc prevention
+local col, statusA, statusB, statusC, forward, up, right, base, tip
+
+---@param pos vec3
+---@param radius number
+---@param shapeColor BJColor?
+local function Sphere(pos, radius, shapeColor)
+    statusA, pos = pcall(vec3, pos)
+    if not statusA or not tonumber(radius) then
+        -- invalid position or radius
+        LogError("invalid sphere data")
+        return
+    end
+    shapeColor = shapeColor or BJColor(1, 1, 1, .5)
+
+    debugDrawer:drawSphere(vec3(pos), radius, ColorF(shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a), true)
+end
+
+---@param text string
+---@param pos vec3
+---@param textColor BJColor?
+---@param bgColor BJColor?
+---@param shadow boolean?
+---@param hideBehindObj boolean?
+local function Text(text, pos, textColor, bgColor, shadow, hideBehindObj)
+    statusA, pos = pcall(vec3, pos)
+    if not statusA then
+        -- invalid position
+        LogError("invalid text position")
+        return
+    end
+    textColor = textColor or BJColor(1, 1, 1, 1)
+    bgColor = bgColor or BJColor(0, 0, 0, 1)
+
+    debugDrawer:drawTextAdvanced(pos, String(text),
+        ColorF(textColor.r, textColor.g, textColor.b, textColor.a),
+        true, false,
+        ColorI(bgColor.r * 255, bgColor.g * 255, bgColor.b * 255, bgColor.a * 255),
+        shadow == true, hideBehindObj == true)
+end
+
+---@param fromPos vec3
+---@param fromWidth number
+---@param toPos vec3
+---@param toWidth number
+---@param shapeColor BJColor?
+local function SquarePrism(fromPos, fromWidth, toPos, toWidth, shapeColor)
+    statusA, fromPos = pcall(vec3, fromPos)
+    statusB, toPos = pcall(vec3, toPos)
+    if not statusA or not statusB or not tonumber(fromWidth) or not tonumber(toWidth) then
+        -- invalid from position or width
+        LogError("invalid square prism data")
+        return
+    end
+    shapeColor = shapeColor or BJColor(1, 1, 1, .5)
+
+    debugDrawer:drawSquarePrism(fromPos, toPos,
+        Point2F(fromWidth, fromWidth), Point2F(toWidth, toWidth),
+        ColorF(shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a),
+        true)
+end
+
+---@param bottomPos vec3
+---@param topPos vec3
+---@param radius number
+---@param shapeColor BJColor?
+local function Cylinder(bottomPos, topPos, radius, shapeColor)
+    statusA, bottomPos = pcall(vec3, bottomPos)
+    statusB, topPos = pcall(vec3, topPos)
+    if not statusA or not statusB or
+        not tonumber(radius) then
+        -- invalid position or radius
+        LogError("invalid cylinder data")
+        return
+    end
+    shapeColor = shapeColor or BJColor(1, 1, 1, .5)
+
+    debugDrawer:drawCylinder(bottomPos, topPos, radius,
+        ColorF(shapeColor.r, shapeColor.g, shapeColor.b, shapeColor.a))
+end
+
+---@param camPos vec3
+---@param camRot vec3
+---@param posA vec3
+---@param posB vec3
+---@param posC vec3
+---@return boolean
+local function isTriangleVisible(camPos, camRot, posA, posB, posC)
+    local center = vec3(
+        (posA.x + posB.x + posC.x) / 3,
+        (posA.y + posB.y + posC.y) / 3,
+        (posA.z + posB.z + posC.z) / 3
+    )
+    local view = center - camPos
+    return (view.x * camRot.x + view.y * camRot.y + view.z * camRot.z) > 0
+end
+
+---@param camPos vec3
+---@param posA vec3
+---@param posB vec3
+---@param posC vec3
+---@return boolean
+local function isTriangleFaceVisible(camPos, posA, posB, posC)
+    local u = posB - posA ---@type vec3
+    local v = posC - posA ---@type vec3
+    local n = u:cross(v):normalized()
+    local center = vec3(
+        (posA.x + posB.x + posC.x) / 3,
+        (posA.y + posB.y + posC.y) / 3,
+        (posA.z + posB.z + posC.z) / 3
+    )
+    local view = center - camPos
+    return (n.x * view.x + n.y * view.y + n.z * view.z) > 0
+end
+
+---@param posA vec3
+---@param posB vec3
+---@param posC vec3
+---@param shapeColor BJColor?
+---@param camPos vec3?
+---@param camRot vec3?
+local function Triangle(posA, posB, posC, shapeColor, camPos, camRot)
+    statusA, posA = pcall(vec3, posA)
+    statusB, posB = pcall(vec3, posB)
+    statusC, posC = pcall(vec3, posC)
+    if not statusA or not statusB or not statusC then
+        -- invalid position
+        LogError("invalid triangle data")
+        return
+    end
+    shapeColor = shapeColor or BJColor(1, 1, 1, .5)
+    if not camPos or not camRot then
+        camPos, camRot = camera.getPositionRotation(true)
+    end
+
+    if isTriangleVisible(camPos, camRot, posA, posB, posC) then
+        col = color(shapeColor.r * 255, shapeColor.g * 255, shapeColor.b * 255, shapeColor.a * 255)
+        if isTriangleFaceVisible(camPos, posA, posB, posC) then
+            debugDrawer:drawTriSolid(posA, posB, posC, col)
+        else
+            debugDrawer:drawTriSolid(posC, posB, posA, col)
+        end
+    end
+end
+
+---@param pos vec3
+---@param rot vec3
+---@param radius number
+---@param shapeColor BJColor?
+local function Arrow(pos, rot, radius, shapeColor)
+    statusA, pos = pcall(vec3, pos)
+    statusB, rot = pcall(vec3, rot)
+    if not statusA or not statusB or not tonumber(radius) then
+        -- invalid position or rotation or radius
+        LogError("invalid arrow data")
+        return
+    end
+    shapeColor = shapeColor or BJColor(1, 1, 1, .5)
+
+    forward = rot * radius
+    tip = vec3(pos) + forward
+    base = vec3(pos) - forward
+    debugDrawer:drawArrow(base, tip,
+        ColorI(shapeColor.r * 255, shapeColor.g * 255, shapeColor.b * 255, shapeColor.a * 255), false)
+end
+
+-- BASE SHAPES RENDERING
+
+M.Sphere = Sphere
+M.Text = Text
+M.SquarePrism = SquarePrism
+M.Cylinder = Cylinder
+M.Triangle = Triangle
+M.Arrow = Arrow
+
+-- draw buffer
+local shapes = {
+    ---@type tablelib<integer, {pos: vec3, radius: number, color: BJColor}> index 1-N
+    spheres = Table(),
+    ---@type tablelib<integer, {fromPos: vec3, toPos: vec3, fromWidth: number, toWidth: number, color: BJColor}> index 1-N
+    lines = Table(),
+    ---@type tablelib<integer, {bottomPos: vec3, topPos: vec3, radius: number, color: BJColor}> index 1-N
+    cylinders = Table(),
+    ---@type tablelib<integer, {pos: vec3, rot: vec3, radius: number, color: BJColor}> index 1-N
+    arrows = Table(),
+    ---@type tablelib<integer, {p1: vec3, p2: vec3, p3: vec3, color: BJColor}> index 1-N
+    triangles = Table(),
+    ---@type tablelib<integer, {text: string, pos: vec3, textColor: BJColor, bgColor: BJColor, shadow: boolean}> index 1-N
+    texts = Table(),
+}
+
+local function reset()
+    for _, arr in pairs(shapes) do
+        arr:clear()
+    end
+end
+
+local function onUpdate()
+    local camPos, camRot = camera.getPositionRotation(true)
+
+    shapes.spheres:forEach(function(el)
+        M.Sphere(el.pos, el.radius, el.color)
+    end)
+
+    shapes.lines:forEach(function(el)
+        M.SquarePrism(el.fromPos, el.fromWidth, el.toPos, el.toWidth, el.color)
+    end)
+
+    shapes.cylinders:forEach(function(el)
+        M.Cylinder(el.bottomPos, el.topPos, el.radius, el.color)
+    end)
+
+    shapes.arrows:forEach(function(el)
+        M.Arrow(el.pos, el.rot, el.radius, el.color)
+    end)
+
+    shapes.triangles:forEach(function(el)
+        M.Triangle(el.p1, el.p2, el.p3, el.color, camPos, camRot)
+    end)
+
+    shapes.texts:forEach(function(el)
+        M.Text(el.text, el.pos, el.textColor, el.bgColor, el.shadow)
+    end)
+end
+
+---@param centerPos vec3
+---@param radius number
+---@param color BJColor?
+local function addSphere(centerPos, radius, color)
+    shapes.spheres:insert({ pos = centerPos, radius = radius, color = color })
+end
+
+---@param fromPos vec3
+---@param fromWidth number
+---@param toPos vec3
+---@param toWidth number
+---@param color BJColor?
+local function addLine(fromPos, fromWidth, toPos, toWidth, color)
+    shapes.lines:insert({ fromPos = fromPos, fromWidth = fromWidth, toPos = toPos, toWidth = toWidth, color = color })
+end
+
+---@param bottomPos vec3
+---@param topPos vec3
+---@param radius number
+---@param color BJColor?
+local function addCylinder(bottomPos, topPos, radius, color)
+    shapes.cylinders:insert({ bottomPos = bottomPos, topPos = topPos, radius = radius, color = color })
+end
+
+---@param pos vec3
+---@param rot vec3
+---@param radius number
+---@param color BJColor?
+local function addArrow(pos, rot, radius, color)
+    shapes.arrows:insert({ pos = pos, rot = rot, radius = radius, color = color })
+end
+
+---@param p1 vec3
+---@param p2 vec3
+---@param p3 vec3
+---@param color BJColor?
+local function addTriangle(p1, p2, p3, color)
+    shapes.triangles:insert({ p1 = p1, p2 = p2, p3 = p3, color = color })
+end
+
+---@param p1 vec3
+---@param p2 vec3
+---@param p3 vec3
+---@param p4 vec3
+---@param color BJColor?
+local function addQuad(p1, p2, p3, p4, color)
+    addTriangle(p1, p2, p3, color)
+    addTriangle(p1, p3, p4, color)
+end
+
+---@param centerPos vec3
+---@param dir vec3
+---@param scales vec3 (x = width, y = height, z = length)
+---@param up vec3?
+---@param color BJColor?
+local function addCuboid(centerPos, dir, scales, up, color)
+    ---@param v vec3
+    ---@param r vec3
+    ---@param baseUp vec3?
+    ---@return vec3
+    local function _rotate(v, r, baseUp)
+        local needUp  = not baseUp
+        local finalUp = (baseUp or vec3(0, 0, 1)):normalized()
+        forward       = r:normalized()
+        right         = finalUp:cross(forward):normalized()
+        if needUp then
+            finalUp = forward:cross(right)
+        end
+
+        return vec3(
+            v.x * right.x + v.y * finalUp.x + v.z * forward.x,
+            v.x * right.y + v.y * finalUp.y + v.z * forward.y,
+            v.x * right.z + v.y * finalUp.z + v.z * forward.z
+        )
+    end
+
+    local baseVerts = {
+        { x = -0.5, y = -0.5, z = -0.5 },
+        { x = 0.5,  y = -0.5, z = -0.5 },
+        { x = 0.5,  y = 0.5,  z = -0.5 },
+        { x = -0.5, y = 0.5,  z = -0.5 },
+        { x = -0.5, y = -0.5, z = 0.5 },
+        { x = 0.5,  y = -0.5, z = 0.5 },
+        { x = 0.5,  y = 0.5,  z = 0.5 },
+        { x = -0.5, y = 0.5,  z = 0.5 },
+    }
+    local verts = {}
+    for i, v in ipairs(baseVerts) do
+        local scaled = vec3(
+            v.x * scales.x,
+            v.y * scales.y,
+            v.z * scales.z
+        )
+        local rotated = _rotate(scaled, dir, up)
+        verts[i] = {
+            x = rotated.x + centerPos.x,
+            y = rotated.y + centerPos.y,
+            z = rotated.z + centerPos.z,
+        }
+    end
+
+    M.addQuad(verts[1], verts[2], verts[3], verts[4], color)
+    M.addQuad(verts[5], verts[6], verts[7], verts[8], color)
+    M.addQuad(verts[1], verts[2], verts[6], verts[5], color)
+    M.addQuad(verts[3], verts[4], verts[8], verts[7], color)
+    M.addQuad(verts[2], verts[3], verts[7], verts[6], color)
+    M.addQuad(verts[1], verts[4], verts[8], verts[5], color)
+end
+
+---@param text string
+---@param pos vec3
+---@param textColor BJColor?
+---@param bgColor BJColor?
+---@param shadow boolean?
+local function addText(text, pos, textColor, bgColor, shadow)
+    shapes.texts:insert({ text = text, pos = pos, textColor = textColor, bgColor = bgColor, shadow = shadow })
+end
+
+M.reset = reset
+M.onUpdate = onUpdate
+
+M.addSphere = addSphere
+M.addLine = addLine
+M.addCylinder = addCylinder
+M.addArrow = addArrow
+M.addTriangle = addTriangle
+M.addQuad = addQuad
+M.addCuboid = addCuboid
+M.addText = addText
+
+return M

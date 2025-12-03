@@ -1,0 +1,74 @@
+<style>
+    .accordion-title-bar {
+        min-height: 2em;
+        padding-left: 2em;
+        transition: background-color 0.2s ease-in-out;
+    }
+    .accordion-title-bar:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    .accordion-title-bar:before {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 1em;
+        height: 0.66em;
+        aspect-ratio: 1;
+        border: 0.2em solid white;
+        border-top: none;
+        border-left: none;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    .accordion.transition > .accordion-title-bar:before {
+        transition: transform 0.5s ease-in-out;
+    }
+    .accordion.open > .accordion-title-bar:before {
+        transform: translate(-50%, -60%) rotate(45deg);
+    }
+    .accordion-title-bar accordion-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.2em;
+    }
+    .accordion-panel {
+        grid-template-rows: 0fr;
+    }
+    .accordion.transition > .accordion-panel {
+        transition: grid-template-rows 0.5s ease-in-out;
+    }
+    .accordion.open > .accordion-panel {
+        grid-template-rows: 1fr;
+    }
+    .accordion-content {
+        overflow: hidden;
+    }
+    .accordion-content:not(.no-border) {
+        border-bottom: thin solid rgba(255, 255, 255, 0.6);
+    }
+    accordion-content {
+        display: block;
+        padding: 0.3em;
+        padding-left: 2em;
+        padding-right: 0;
+    }
+</style>
+<div
+    class="accordion w-100 d-flex flex-column"
+    ng-class="{open: $ctrl.state, transition: $ctrl.transition}"
+>
+    <ng-transclude
+        class="accordion-title-bar w-100 position-relative d-flex align-center cursor-pointer"
+        ng-click="$ctrl.toggle()"
+        ng-transclude-slot="header"
+    ></ng-transclude>
+    <div class="accordion-panel w-100 d-grid">
+        <ng-transclude
+            class="accordion-content"
+            ng-class="{'no-border': $ctrl.noBorderBottom === true}"
+            ng-transclude-slot="body"
+        ></ng-transclude>
+    </div>
+</div>

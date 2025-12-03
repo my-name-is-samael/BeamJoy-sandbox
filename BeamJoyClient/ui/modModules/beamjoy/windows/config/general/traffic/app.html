@@ -1,0 +1,102 @@
+<table>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.traffic.enabled"|translate}}
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.enabled"></bj-toggle>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.traffic.amount"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <span>{{$ctrl.data.amount}}</span>
+                <bj-slider
+                    ng-model="$ctrl.data.amount"
+                    min="5"
+                    max="30"
+                ></bj-slider>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.traffic.maxPerPlayer"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <span>{{$ctrl.data.maxPerPlayer}}</span>
+                <bj-slider
+                    ng-model="$ctrl.data.maxPerPlayer"
+                    min="5"
+                    max="20"
+                ></bj-slider>
+            </div>
+        </td>
+    </tr>
+    <tr ng-hide="$ctrl.hideModels">
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.traffic.model"|translate}}
+        </td>
+        <td>
+            <ul>
+                <li
+                    class="d-flex align-center gap-1 pb-1"
+                    ng-repeat="model in $ctrl.data.models"
+                >
+                    <button
+                        class="btn"
+                        ng-hide="$ctrl.hideRemoveModel"
+                        ng-click="$ctrl.removeModel($event, model)"
+                        title="{{'beamjoy.common.remove'|translate}}"
+                    >
+                        <icon name="remove" class="danger"></icon>
+                    </button>
+                    <span>{{model}} - {{$ctrl.modelLabels[model]}}</span>
+                </li>
+                <li
+                    class="d-flex align-center gap-1"
+                    ng-if="$ctrl.modelOptions.length > 0"
+                >
+                    <button
+                        class="btn success"
+                        ng-disabled="!$ctrl.selectedModel"
+                        ng-click="$ctrl.addModel($event)"
+                    >
+                        <icon name="add"></icon>
+                    </button>
+                    <bj-select
+                        ng-model="$ctrl.selectedModel"
+                        options="$ctrl.modelOptions"
+                    >
+                    </bj-select>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.apply"|translate}}
+                </button>
+                <button
+                    class="btn warning w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

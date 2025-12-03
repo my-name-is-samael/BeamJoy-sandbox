@@ -1,0 +1,19 @@
+{
+    "domElement": "<span></span>",
+    "name": "beamjoy.window.config",
+    "types": ["ui.apps.categories.multiplayer"],
+    "css": {
+        "top": "15vh",
+        "left": "65vw",
+        "width": "34.5vw",
+        "min-width": "15vw",
+        "max-width": "60vw",
+        "height": "60vh",
+        "min-height": "50vh",
+        "max-height": "80vh"
+    },
+    "description": "Server Configuration Window position for BeamJoy UI",
+    "author": "TontonSamael",
+    "version": "1.0",
+    "directive": "beamjoy-config"
+}

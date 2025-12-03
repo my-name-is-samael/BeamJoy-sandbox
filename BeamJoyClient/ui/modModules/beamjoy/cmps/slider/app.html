@@ -1,0 +1,46 @@
+<style>
+    bj-slider {
+        width: 100%;
+    }
+    bj-slider input {
+        appearance: none;
+        border: none;
+    }
+    bj-slider input:focus {
+        border: none;
+    }
+    bj-slider input::-webkit-slider-runnable-track {
+        appearance: none;
+        height: 0.6em;
+        border-radius: 0.3em;
+        background: rgba(255, 255, 255, 0.5);
+        transition: background-color 0.2s ease-in-out;
+    }
+    bj-slider input::-webkit-slider-runnable-track:hover {
+        background: rgba(255, 255, 255, 0.6);
+    }
+    bj-slider input::-webkit-slider-thumb {
+        appearance: none;
+        width: 1.3em;
+        aspect-ratio: 1;
+        margin-top: -0.3em;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgb(230, 92, 0);
+        transition: background-color 0.2s ease-in-out;
+    }
+    bj-slider input::-webkit-slider-thumb:hover {
+        background: rgb(218, 87, 0);
+    }
+</style>
+
+<input
+    type="range"
+    class="w-100"
+    min="{{$ctrl.min}}"
+    max="{{$ctrl.max}}"
+    step="{{$ctrl.step}}"
+    ng-disabled="$ctrl.disabled"
+    ng-model="$ctrl.ngModel"
+    ng-style="{'background': 'linear-gradient(to right, rgb(230, 92, 0) 0% ' + $ctrl.percent + '%, transparent ' + $ctrl.percent + '% 100%)'}"
+/>

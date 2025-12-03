@@ -1,0 +1,60 @@
+<table>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.modelBlacklist.models"|translate}}
+        </td>
+        <td>
+            <ul>
+                <li
+                    class="d-flex align-center gap-1 pb-1"
+                    ng-repeat="model in $ctrl.list"
+                >
+                    <button
+                        class="btn"
+                        ng-click="$ctrl.removeModel($event, model)"
+                        title="{{'beamjoy.common.remove'|translate}}"
+                    >
+                        <icon name="remove" class="danger"></icon>
+                    </button>
+                    <span>{{model}} - {{$ctrl.labels[model]}}</span>
+                </li>
+                <li class="d-flex align-center gap-1">
+                    <button
+                        class="btn success"
+                        ng-disabled="!$ctrl.selected"
+                        ng-click="$ctrl.addOption($event)"
+                    >
+                        <icon name="add"></icon>
+                    </button>
+                    <bj-select
+                        ng-model="$ctrl.selected"
+                        options="$ctrl.options"
+                    >
+                    </bj-select>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="pt-1 d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn danger w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

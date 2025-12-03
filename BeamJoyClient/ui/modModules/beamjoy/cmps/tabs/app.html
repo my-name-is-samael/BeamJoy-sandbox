@@ -1,0 +1,67 @@
+<style>
+    bj-tabs {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .tab-bar {
+        border-bottom: thin solid gray;
+    }
+    .tab {
+        padding-top: 0.1em;
+        border: thin solid gray;
+        border-radius: 0.3em;
+        border-bottom-left-radius: unset;
+        border-bottom-right-radius: unset;
+        transition: all 0.2s ease-in-out;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    .tab.active {
+        margin-top: 0.1em;
+        padding-top: 0.3em;
+        background-color: rgba(230, 92, 0, 0.44);
+    }
+    .tab:hover {
+        color: rgb(241 255 164);
+    }
+    .tab.closable > .close {
+        display: block;
+        font-size: 1.5em;
+        line-height: 1em;
+        margin-top: -0.1em;
+        padding: 0 0.2em;
+        transition: color 0.2s ease-in-out;
+        color: white;
+    }
+    .tab.closable > .close:hover {
+        color: red;
+    }
+    .tab-content {
+        overflow: auto;
+    }
+</style>
+
+<div class="tab-bar d-flex flex-wrap" ng-hide="$ctrl.tabs.length < 2">
+    <div
+        class="tab position-relative mt-1 p-1 d-flex gap-1 cursor-pointer"
+        ng-repeat="tab in $ctrl.tabs"
+        ng-class="{'active': $index === $ctrl.activeTabIndex, 'closable': tab.closable}"
+        ng-click="$ctrl.onTabChange({tabId: tab.id})"
+    >
+        {{ tab.title | translate}}
+        <div
+            class="close"
+            ng-hide="!tab.closable"
+            ng-click="$ctrl.onTabClose({tabId: tab.id})"
+        >
+            ×
+        </div>
+    </div>
+</div>
+<div
+    ng-hide="!$ctrl.tabs[$ctrl.activeTabIndex]"
+    class="tab-content flex-grow-1 pt-2"
+    ng-html="{{$ctrl.tabs[$ctrl.activeTabIndex].template}}"
+></div>

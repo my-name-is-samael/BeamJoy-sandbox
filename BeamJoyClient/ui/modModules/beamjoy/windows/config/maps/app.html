@@ -1,0 +1,83 @@
+<table class="w-100">
+    <tr>
+        <td colspan="3">
+            <h2>{{"beamjoy.window.config.tabs.maps.active"|translate}}</h2>
+        </td>
+    </tr>
+    <tr ng-repeat="el in $ctrl.data.active">
+        <td
+            class="text-right"
+            title="{{el.archive ? el.archive :
+                ('beamjoy.window.config.tabs.maps.vanilla'|translate)}}"
+        >
+            {{el.name}}
+        </td>
+        <td>
+            <bj-toggle ng-model="el.enabled"></bj-toggle>
+        </td>
+        <td>
+            <input
+                type="text"
+                ng-model="el.label"
+                class="w-100"
+                ng-class="{danger: $ctrl.errors[el.name] === true}"
+            />
+        </td>
+    </tr>
+    <tr ng-if="$ctrl.data.ignored.length > 0">
+        <td colspan="3">
+            <h2
+                title="{{'beamjoy.window.config.tabs.maps.ignored.tooltip'|translate}}"
+            >
+                {{"beamjoy.window.config.tabs.maps.ignored"|translate}}
+            </h2>
+        </td>
+    </tr>
+    <tr ng-repeat="el in $ctrl.data.ignored">
+        <td
+            class="text-right"
+            title="{{el.archive ? el.archive :
+                ('beamjoy.window.config.tabs.maps.vanilla'|translate)}}"
+        >
+            {{el.name}}
+        </td>
+        <td colspan="2">
+            <div class="w-100 d-flex align-center gap-1">
+                <button
+                    class="btn danger"
+                    ng-click="$ctrl.removeIgnored(el.name)"
+                >
+                    <icon name="delete"></icon>
+                </button>
+                <input
+                    type="text"
+                    ng-model="el.label"
+                    class="flex=grow-1"
+                    ng-class="{danger: $ctrl.errors[el.name] === true}"
+                />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty || !$ctrl.valid}"
+                    ng-disabled="!$ctrl.dirty || !$ctrl.valid"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn warning w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

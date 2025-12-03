@@ -1,0 +1,209 @@
+<table>
+    <tr>
+        <td class="text-right">{{$ctrl.player.playerName}}</td>
+        <td>{{$ctrl.player.lang}} - {{$ctrl.player.beammpID}}</td>
+    </tr>
+
+    <tr>
+        <td class="text-right">Group</td>
+        <td>
+            <span ng-if="$ctrl.readOnly">
+                {{$ctrl.groupLabels[$ctrl.player.group]}}
+            </span>
+            <bj-select
+                ng-if="!$ctrl.readOnly"
+                ng-model="$ctrl.groupSelected"
+                options="$ctrl.groupOptions"
+            ></bj-select>
+        </td>
+    </tr>
+
+    <tr ng-if="$ctrl.player.muted">
+        <td class="text-right">
+            {{($ctrl.player.muteReason ?
+            "beamjoy.window.config.tabs.database.muteReason" :
+            "beamjoy.window.config.tabs.database.muted")|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <div class="flex-grow-1" ng-if="$ctrl.player.muteReason">
+                    <span>{{$ctrl.player.muteReason}}</span>
+                </div>
+                <span ng-if="!$ctrl.readOnly">
+                    <button
+                        class="btn success"
+                        ng-click="$ctrl.unmute()"
+                        title="{{'beamjoy.window.main.playerlist.moderation.unmute'|translate}}"
+                    >
+                        <icon name="mute"></icon>
+                    </button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr ng-if="!$ctrl.player.muted && $ctrl.player.muteReason">
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.muteReason.last"|translate}}
+        </td>
+        <td>
+            <span>{{$ctrl.player.muteReason}}</span>
+        </td>
+    </tr>
+    <tr ng-hide="$ctrl.player.muted || $ctrl.readOnly">
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.muteReason"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <input
+                    type="text"
+                    class="flex-grow-1"
+                    ng-model="$ctrl.newMuteReason"
+                />
+                <button
+                    class="btn danger"
+                    ng-click="$ctrl.mute()"
+                    title="{{'beamjoy.window.main.playerlist.moderation.mute'|translate}}"
+                >
+                    <icon name="mute"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+
+    <tr ng-if="$ctrl.player.kickReason">
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.kickReason"|translate}}
+        </td>
+        <td>{{$ctrl.player.kickReason}}</td>
+    </tr>
+
+    <tr ng-if="$ctrl.player.banned || $ctrl.player.tempBanUntil">
+        <td class="text-right">
+            {{($ctrl.player.banReason ?
+            "beamjoy.window.config.tabs.database.banReason" :
+            "beamjoy.window.config.tabs.database.banned")|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <div class="flex-grow-1" ng-if="$ctrl.player.banReason">
+                    <span>{{$ctrl.player.banReason}}</span>
+                </div>
+                <span ng-if="!$ctrl.readOnly">
+                    <button
+                        class="btn success"
+                        ng-click="$ctrl.unban()"
+                        title="{{'beamjoy.window.config.tabs.database.unban'|translate}}"
+                    >
+                        <icon name="ban"></icon>
+                    </button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr
+        ng-if="!$ctrl.player.banned && !$ctrl.player.tempBanUntil && $ctrl.player.banReason"
+    >
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.banReason.last"|translate}}
+        </td>
+        <td>
+            <span>{{$ctrl.player.banReason}}</span>
+        </td>
+    </tr>
+    <tr
+        ng-if="!$ctrl.player.banned && !$ctrl.player.tempBanUntil && !$ctrl.readOnly"
+    >
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.banReason"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <input
+                    type="text"
+                    class="flex-grow-1"
+                    ng-model="$ctrl.newBanReason"
+                />
+                <button
+                    class="btn danger"
+                    ng-click="$ctrl.ban()"
+                    title="{{'beamjoy.window.main.playerlist.moderation.ban'|translate}}"
+                >
+                    <icon name="ban"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.data"|translate}}
+        </td>
+        <td>
+            <ul class="w-100" ng-if="$ctrl.data.length > 0">
+                <li
+                    class="d-flex gap-1 align-center"
+                    ng-repeat="data in $ctrl.data"
+                >
+                    <span ng-if="!$ctrl.readOnlyData">
+                        <button
+                            class="btn danger"
+                            ng-click="$ctrl.removeData(data.key)"
+                            title="{{'beamjoy.common.remove'|translate}}"
+                        >
+                            <icon name="delete"></icon>
+                        </button>
+                    </span>
+                    <span>{{data.key}} : {{data.value}}</span>
+                </li>
+            </ul>
+            <span ng-if="$ctrl.data.length === 0">/</span>
+        </td>
+    </tr>
+
+    <tr ng-if="!$ctrl.readOnlyData">
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.database.data.add"|translate}}
+        </td>
+        <td>
+            <div class="d-flex gap-1 align-center">
+                <bj-select
+                    ng-model="$ctrl.newData.type"
+                    options="$ctrl.newData.TYPES"
+                ></bj-select>
+                <input
+                    type="text"
+                    class="flex-grow-1"
+                    ng-model="$ctrl.newData.key"
+                    placeholder="{{'beamjoy.window.config.tabs.database.data.keyPlaceholder'|translate}}"
+                />
+                <input
+                    type="text"
+                    class="flex-grow-1"
+                    ng-if="$ctrl.newData.type === 'string'"
+                    ng-model="$ctrl.newData.value"
+                    placeholder="{{'beamjoy.window.config.tabs.database.data.valuePlaceholder'|translate}}"
+                />
+                <input
+                    type="number"
+                    class="flex-grow-1"
+                    ng-if="$ctrl.newData.type === 'number'"
+                    ng-model="$ctrl.newData.value"
+                />
+                <bj-toggle
+                    ng-if="$ctrl.newData.type === 'boolean'"
+                    ng-model="$ctrl.newData.value"
+                ></bj-toggle>
+                <button
+                    class="btn success"
+                    ng-class="{'disabled': $ctrl.newData.disabled}"
+                    ng-click="$ctrl.addData()"
+                    ng-disabled="$ctrl.newData.disabled"
+                    title="{{'beamjoy.common.add'|translate}}"
+                >
+                    <icon name="add"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,68 @@
+<table ng-if="$ctrl.showConfigs">
+    <tr>
+        <td class="text-right">
+            <span title="{{'beamjoy.window.config.tabs.general.allowMods.tooltip'|translate}}">
+                {{"beamjoy.window.config.tabs.general.allowMods"|translate}}
+            </span>
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.AllowClientMods"></bj-toggle>
+        </td>
+    </tr>
+</table>
+<bj-accordion id="config-whitelist" ng-hide="!$ctrl.display.whitelist">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.whitelist"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-whitelist></bj-config-general-whitelist>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-intropanel" ng-hide="!$ctrl.display.introPanel">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.intropanel"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-intropanel></bj-config-general-intropanel>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-chat" ng-hide="!$ctrl.display.chat">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.chat"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-chat></bj-config-general-chat>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-model-blacklist" ng-hide="!$ctrl.display.modelBlacklist">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.modelBlacklist"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-model-blacklist></bj-config-general-model-blacklist>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-traffic" ng-hide="!$ctrl.display.traffic">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.traffic"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-traffic></bj-config-general-traffic>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-environment" ng-hide="!$ctrl.display.environment">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.environment"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-environment></bj-config-general-environment>
+    </accordion-content>
+</bj-accordion>
+<bj-accordion id="config-broadcasts" ng-hide="!$ctrl.display.broadcasts">
+    <accordion-title>
+        {{"beamjoy.window.config.tabs.general.broadcasts"|translate}}
+    </accordion-title>
+    <accordion-content>
+        <bj-config-general-broadcasts></bj-config-general-broadcasts>
+    </accordion-content>
+</bj-accordion>

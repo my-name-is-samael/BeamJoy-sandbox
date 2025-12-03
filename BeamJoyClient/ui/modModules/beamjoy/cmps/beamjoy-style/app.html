@@ -1,0 +1,633 @@
+<!-- GLOBAL -->
+<style>
+    beamjoy,
+    beamjoy * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    beamjoy button,
+    beamjoy input,
+    beamjoy select,
+    beamjoy textarea {
+        position: relative;
+        font-size: 1em;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-track:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+    ::-webkit-scrollbar-track:active {
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .bng-splash-text > * {
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+
+    vr {
+        display: block;
+        height: 100%;
+        min-height: 2em;
+        border-left: thin solid #fff;
+        margin: auto 0.3em;
+    }
+
+    span.danger {
+        color: rgb(199, 0, 0);
+    }
+</style>
+
+<!-- TOOLTIP -->
+<style>
+    beamjoy-tooltip {
+        position: absolute;
+        z-index: 100;
+        padding: 0 0.2em;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        transform: translateY(-50%);
+    }
+    beamjoy-tooltip.show {
+        opacity: 1;
+    }
+    beamjoy-tooltip > tooltip-content {
+        position: relative;
+        pointer-events: none;
+        padding: 0.2em 0.35em;
+        border-radius: 0.35em;
+        font-size: 0.7em;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+</style>
+
+<!-- COLOR PICKER -->
+<style>
+    beamjoy-color-picker {
+        position: absolute;
+        top: 0;
+        margin: 0 0.3em;
+        display: none;
+        gap: 10px;
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+    }
+    beamjoy-color-picker.show {
+        display: flex;
+    }
+    beamjoy-color-picker > * {
+        position: relative;
+    }
+    beamjoy-color-picker > * > * {
+        position: absolute;
+    }
+    beamjoy-color-picker > .sv-picker {
+        width: 10em;
+        height: 10em;
+        background-color: red;
+        cursor: crosshair;
+        background-image: linear-gradient(to top, #000, transparent),
+            linear-gradient(to right, #fff, transparent);
+    }
+    beamjoy-color-picker > .sv-picker > .sv-cursor {
+        width: 10px;
+        height: 10px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+    beamjoy-color-picker > .hue-picker {
+        width: 1em;
+        height: 10em;
+        cursor: crosshair;
+        background: linear-gradient(
+            to bottom,
+            red,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        );
+    }
+    beamjoy-color-picker > .hue-picker > .hue-cursor {
+        width: 100%;
+        height: 4px;
+        background: #000;
+    }
+</style>
+
+<!-- FADE -->
+<style>
+    beamjoy-fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+    }
+    beamjoy-fade > fade {
+        position: absolute;
+        width: 100%;
+        height: 70%;
+        background: black;
+    }
+    beamjoy-fade > fade.top {
+        top: 0;
+        transform: translateY(-100%);
+        mask: radial-gradient(120% 40% at 50% 100%, transparent 40%, #000 60%);
+    }
+    beamjoy-fade > fade.bottom {
+        bottom: 0;
+        transform: translateY(100%);
+        mask: radial-gradient(120% 40% at 50% 0%, transparent 40%, #000 60%);
+    }
+    beamjoy-fade > fade.closed {
+        transform: translateY(0);
+    }
+</style>
+
+<!-- INPUTS -->
+<style>
+    beamjoy input:not([type="range"]) {
+        padding: 0.5em 0.25em;
+    }
+    beamjoy textarea {
+        background-color: var(--bng-black-o2);
+        border-bottom: 0.125em solid rgba(255, 255, 255, 0.6);
+        border-radius: var(--bng-corners-1) var(--bng-corners-1) 0 0;
+        padding: 0.5em 0.25em;
+        overflow: visible;
+        position: relative;
+        transition: 0.2s ease-in-out;
+        font-family: var(--fnt-defs);
+        color: white;
+    }
+
+    beamjoy .focus-visible::before {
+        border-radius: unset;
+    }
+    beamjoy .btn.focus-visible::before {
+        content: none;
+    }
+
+    beamjoy input:disabled,
+    beamjoy input.ng-invalid:disabled {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-bottom: 0.125em solid rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    beamjoy md-select {
+        background-color: var(--bng-black-o2);
+        border-bottom: 0.125em solid rgba(255, 255, 255, 0.6);
+        border-radius: var(--bng-corners-1) var(--bng-corners-1) 0 0;
+    }
+    beamjoy md-select:disabled {
+        border-bottom: 0.125em solid rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    beamjoy textarea:focus,
+    beamjoy md-select:focus {
+        border-bottom: 0.125em solid var(--bng-orange-b400);
+    }
+
+    input[type="text"].danger {
+        background-color: rgba(255, 0, 0, 0.425);
+    }
+</style>
+
+<!-- BTN -->
+<style>
+    .btn {
+        display: block;
+        padding: 0.2em;
+        border-radius: 0.3em;
+        border: none;
+        color: white;
+        fill: white; /* icon button color */
+        background-color: transparent;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+        padding: 0.2em 0.4em;
+    }
+    .btn:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    .btn.primary {
+        background-color: rgb(230, 92, 0);
+    }
+    .btn.primary:hover {
+        background-color: rgb(206, 82, 0);
+    }
+    .btn.info {
+        background-color: rgb(0, 140, 255);
+    }
+    .btn.info:hover {
+        background-color: rgb(0, 106, 192);
+    }
+    .btn.warning {
+        background-color: rgb(192 205 4);
+        color: black;
+        fill: black; /* icon button color */
+        margin: 0; /* base style override */
+    }
+    .btn.warning:hover {
+        background-color: rgb(175, 187, 2);
+    }
+    .btn.danger {
+        background-color: rgb(199, 0, 0);
+    }
+    .btn.danger:hover {
+        background-color: rgb(170, 0, 0);
+    }
+    .btn.success {
+        background-color: rgb(80, 177, 0);
+    }
+    .btn.success:hover {
+        background-color: rgb(60, 157, 0);
+    }
+    .btn.disabled,
+    .btn:disabled {
+        background-color: rgb(37, 37, 37);
+        color: hsla(0, 0%, 60%, 1);
+        cursor: unset;
+    }
+    .btn.disabled:hover,
+    .btn:disabled:hover {
+        background-color: rgb(37, 37, 37);
+    }
+</style>
+
+<!-- ICON -->
+<style>
+    icon {
+        display: block;
+        height: 2em;
+        width: fit-content;
+    }
+    icon.small {
+        height: 1.5em;
+    }
+    icon.big {
+        height: 2.5em;
+    }
+    icon.light {
+        fill: white;
+    }
+    icon.dark {
+        fill: black;
+    }
+    icon.primary {
+        fill: rgb(230, 92, 0);
+    }
+    icon.warning {
+        fill: rgb(192 205 4);
+        margin: 0; /* base style override */
+        background-color: transparent; /* base style override */
+    }
+    icon.danger {
+        fill: rgb(199, 0, 0);
+    }
+    icon.success {
+        fill: rgb(80, 177, 0);
+    }
+    icon.info {
+        fill: rgb(0, 140, 255);
+    }
+    icon > svg {
+        height: 100%;
+        width: auto;
+    }
+</style>
+
+<!-- TEXT UTILS -->
+<style>
+    .bold {
+        font-weight: bold;
+    }
+    .italic {
+        font-style: italic;
+    }
+    .underline {
+        text-decoration: underline;
+    }
+    .strike {
+        text-decoration: line-through;
+    }
+</style>
+
+<!-- DISPLAY UTILS -->
+<style>
+    .d-none {
+        display: none;
+    }
+    .d-block {
+        display: block;
+    }
+    .d-flex {
+        display: flex;
+    }
+    .d-grid {
+        display: grid;
+    }
+    .d-inlineblock {
+        display: inline-block;
+    }
+</style>
+
+<!-- POSITION UTILS -->
+<style>
+    .position-relative {
+        position: relative;
+    }
+    .position-absolute {
+        position: absolute;
+    }
+    .position-fixed {
+        position: fixed;
+    }
+    .no-wrap {
+        white-space: nowrap;
+    }
+    .text-left {
+        text-align: left;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .pos-t-0 {
+        top: 0;
+    }
+    .pos-l-0 {
+        left: 0;
+    }
+    .pos-r-0 {
+        right: 0;
+    }
+    .pos-b-0 {
+        bottom: 0;
+    }
+</style>
+
+<!-- OVERFLOW UTILS -->
+<style>
+    .overflow-hidden {
+        overflow: hidden;
+    }
+    .overflow-x-hidden {
+        overflow-x: hidden;
+    }
+    .overflow-y-hidden {
+        overflow-y: hidden;
+    }
+    .overflow-auto {
+        overflow: auto;
+    }
+    .overflow-scroll {
+        overflow: scroll;
+    }
+</style>
+
+<!-- PADDING UTILS -->
+<style>
+    .p-0 {
+        padding: 0;
+    }
+    .p-1 {
+        padding: 0.3em;
+    }
+    .p-2 {
+        padding: 0.6em;
+    }
+    .pt-1 {
+        padding-top: 0.3em;
+    }
+    .pt-2 {
+        padding-top: 0.6em;
+    }
+    .pb-1 {
+        padding-bottom: 0.3em;
+    }
+    .pb-2 {
+        padding-bottom: 0.6em;
+    }
+    .pl-1 {
+        padding-left: 0.3em;
+    }
+    .pl-2 {
+        padding-left: 0.6em;
+    }
+    .pr-1 {
+        padding-right: 0.3em;
+    }
+    .pr-2 {
+        padding-right: 0.6em;
+    }
+    .px-1 {
+        padding-left: 0.3em;
+        padding-right: 0.3em;
+    }
+    .px-2 {
+        padding-left: 0.6em;
+        padding-right: 0.6em;
+    }
+    .py-1 {
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
+    }
+    .py-2 {
+        padding-top: 0.6em;
+        padding-bottom: 0.6em;
+    }
+</style>
+
+<!-- MARGIN UTILS -->
+<style>
+    .m-0 {
+        margin: 0;
+    }
+    .m-1 {
+        margin: 0.3em;
+    }
+    .m-2 {
+        margin: 0.6em;
+    }
+    .mt-1 {
+        margin-top: 0.3em;
+    }
+    .mt-2 {
+        margin-top: 0.6em;
+    }
+    .mb-1 {
+        margin-bottom: 0.3em;
+    }
+    .mb-2 {
+        margin-bottom: 0.6em;
+    }
+    .ml-1 {
+        margin-left: 0.3em;
+    }
+    .ml-2 {
+        margin-left: 0.6em;
+    }
+    .mr-1 {
+        margin-right: 0.3em;
+    }
+    .mr-2 {
+        margin-right: 0.6em;
+    }
+    .mx-1 {
+        margin-left: 0.3em;
+        margin-right: 0.3em;
+    }
+    .mx-2 {
+        margin-left: 0.6em;
+        margin-right: 0.6em;
+    }
+    .my-1 {
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+    }
+    .my-2 {
+        margin-top: 0.6em;
+        margin-bottom: 0.6em;
+    }
+</style>
+
+<!-- SIZE UTILS -->
+<style>
+    .w-100 {
+        width: 100%;
+    }
+    .w-50 {
+        width: 49.9%;
+    }
+    .w-fitcontent {
+        width: fit-content;
+    }
+    .w-auto {
+        width: auto;
+    }
+    .h-100 {
+        height: 100%;
+    }
+    .h-50 {
+        height: 49.9%;
+    }
+    .h-fitcontent {
+        height: fit-content;
+    }
+    .h-auto {
+        height: auto;
+    }
+    .square {
+        aspect-ratio: 1;
+    }
+
+    span.small {
+        font-size: 0.8em;
+    }
+</style>
+
+<!-- FLEX UTILS -->
+<style>
+    .flex-column {
+        flex-direction: column;
+    }
+    .flex-row {
+        flex-direction: row;
+    }
+    .gap-0 {
+        gap: 0;
+    }
+    .gap-1 {
+        gap: 0.3em;
+    }
+    .gap-2 {
+        gap: 0.6em;
+    }
+    .align-start {
+        align-items: flex-start;
+    }
+    .align-center {
+        align-items: center;
+    }
+    .align-end {
+        align-items: flex-end;
+    }
+    .justify-start {
+        justify-content: flex-start;
+    }
+    .justify-center {
+        justify-content: center;
+    }
+    .justify-end {
+        justify-content: flex-end;
+    }
+    .flex-grow-1 {
+        flex-grow: 1;
+    }
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+    .flex-nowrap {
+        flex-wrap: nowrap;
+    }
+</style>
+
+<!-- TABLE UTILS -->
+<style>
+    beamjoy table {
+        width: 100%;
+    }
+    beamjoy table td {
+        white-space: nowrap;
+        width: 1px; /* fit-content */
+        padding: 0 0.15em;
+    }
+    beamjoy table td:last-child {
+        width: auto;
+    }
+
+    beamjoy table tr.spacer {
+        display: block;
+        height: 0.3em;
+    }
+</style>
+
+<!-- POINTER UTILS -->
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .cursor-grab {
+        cursor: grab;
+    }
+    .cursor-crosshair {
+        cursor: crosshair;
+    }
+
+    .pointer-events-none {
+        pointer-events: none;
+    }
+    .pointer-events-all {
+        pointer-events: all;
+    }
+</style>

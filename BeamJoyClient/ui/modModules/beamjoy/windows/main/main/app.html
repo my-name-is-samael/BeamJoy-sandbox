@@ -1,0 +1,19 @@
+<div class="d-flex gap-1">
+    <button
+        class="btn primary"
+        ng-click="$ctrl.openSettings()"
+        title="{{ 'beamjoy.window.main.tabs.settings.title' | translate}}"
+    >
+        <icon name="settings"></icon>
+    </button>
+    <button
+        class="btn"
+        ng-class="{'success': $ctrl.stateNametags, 'danger': !$ctrl.stateNametags}"
+        ng-click="$ctrl.toggleNametags()"
+        title="{{ 'beamjoy.window.main.tabs.main.toggleNametags' | translate}}"
+    >
+        <icon name="nametag"></icon>
+    </button>
+</div>
+<hr />
+<bj-players-list></bj-players-list>

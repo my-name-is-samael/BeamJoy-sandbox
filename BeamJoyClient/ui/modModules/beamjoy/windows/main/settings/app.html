@@ -1,0 +1,550 @@
+<style>
+    bj-main-settings
+        table.settings-wrapper
+        td:first-child:not(.settings-category) {
+        padding-left: 2em;
+    }
+
+    bj-main-settings .nametag-preview {
+        margin-left: 0.3em;
+        padding: 0 0.2em;
+    }
+
+    bj-main-settings table input[type="number"] {
+        width: 5em;
+    }
+
+    bj-main-settings h3 {
+        border-bottom: thin solid rgb(230, 92, 0);
+    }
+</style>
+
+<table class="w-100 h-fitcontent">
+    <tr>
+        <td colspan="3" class="settings-category d-flex align-center gap-2">
+            <span>
+                <icon name="car" class="light"></icon>
+            </span>
+            <h3>
+                {{ "beamjoy.window.main.tabs.settings.sections.vehicle.title"|
+                translate }}
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span
+                title="{{
+            'beamjoy.window.main.tabs.settings.sections.vehicle.automaticLights.tooltip'|
+            translate }}"
+                >{{
+                "beamjoy.window.main.tabs.settings.sections.vehicle.automaticLights"|
+                translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.vehicle.automaticLights"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" class="settings-category d-flex align-center gap-2">
+            <span>
+                <icon name="nametag" class="light"></icon>
+            </span>
+            <h3>
+                {{ "beamjoy.window.main.tabs.settings.sections.nametags.title"|
+                translate }}
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>{{ "ui.options.multiplayer.nameTags" | translate }}</span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.playerBgColor,
+                color: $ctrl.settings.nametags.playerColor,
+            }"
+            >
+                Joel123
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "ui.options.multiplayer.nametagFade" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.nameTagFadeEnabled"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span
+                title="{{ 'ui.options.multiplayer.nametagFadeDistance.tooltip' | translate}}"
+            >
+                {{ "ui.options.multiplayer.nametagFadeDistance" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <input
+                    type="number"
+                    ng-model="$ctrl.settings.nametags.nameTagFadeDistance"
+                    ng-model-options="{ debounce: 300 }"
+                    ng-disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.nameTagFadeEnabled"
+                />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "ui.options.multiplayer.nametagInvertFade" | translate
+                }}</span
+            >
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.nameTagFadeInvert"
+                    disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.nameTagFadeEnabled"
+                    custom-enabled="ui.options.multiplayer.nametagFadeIn"
+                    custom-disabled="ui.options.multiplayer.nametagFadeOut"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "ui.options.multiplayer.nametagDontFullyHide" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.nameTagDontFullyHide"
+                    disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.nameTagFadeEnabled"
+                ></bj-toggle>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.nameTagFadeEnabled || !$ctrl.settings.nametags.nameTagDontFullyHide"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.playerBgColor,
+                color: $ctrl.settings.nametags.playerColor,
+                opacity: .3
+            }"
+            >
+                Joel123
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span
+                title="{{ 'ui.options.multiplayer.shortenNametags.tooltip' | translate}}"
+            >
+                {{ "ui.options.multiplayer.shortenNametags" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.shortenNametags"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.playerBgColor,
+                color: $ctrl.settings.nametags.playerColor,
+            }"
+            >
+                {{ $ctrl.settings.nametags.shortenNametags ?
+                "StarryNebulaSkyx0".slice(0,
+                $ctrl.settings.nametags.nametagCharLimit)+"..." :
+                "StarryNebulaSkyx0" }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span
+                title="{{ 'ui.options.multiplayer.nametagCharLimit.tooltip' | translate}}"
+            >
+                {{ "ui.options.multiplayer.nametagCharLimit" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <input
+                    type="number"
+                    ng-model="$ctrl.settings.nametags.nametagCharLimit"
+                    ng-model-options="{ debounce: 300 }"
+                    ng-disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.shortenNametags"
+                />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "ui.options.multiplayer.nameTagShowDistance" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.nameTagShowDistance"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "ui.options.multiplayer.nameTagsHideBehindObjects" | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.nameTagsHideBehindObjects"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span
+                title="{{ 'ui.options.multiplayer.showSpectators.tooltip' | translate}}"
+            >
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.showSpectators"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle
+                    ng-model="$ctrl.settings.nametags.showSpectators"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.playerColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.playerColor = $ctrl.resetValues.nametags.playerColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.playerColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-color-picker>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.playerBgColor,
+                color: $ctrl.settings.nametags.playerColor,
+            }"
+            >
+                Joel123
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.playerBgColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.playerBgColor = $ctrl.resetValues.nametags.playerBgColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.playerBgColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.idleColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.idleColor = $ctrl.resetValues.nametags.idleColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.idleColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-color-picker>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.idleBgColor,
+                color: $ctrl.settings.nametags.idleColor,
+            }"
+            >
+                Joel123
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.idleBgColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.idleBgColor = $ctrl.resetValues.nametags.idleBgColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.idleBgColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.specColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.specColor = $ctrl.resetValues.nametags.specColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.specColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.showSpectators"
+                ></bj-color-picker>
+            </div>
+        </td>
+        <td
+            class="d-flex align-center"
+            ng-hide="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.showSpectators"
+        >
+            {{ "beamjoy.common.preview" | translate }}
+            <div
+                class="nametag-preview w-fitcontent"
+                ng-style="{
+                backgroundColor: $ctrl.settings.nametags.specBgColor,
+                color: $ctrl.settings.nametags.specColor,
+            }"
+            >
+                Joel123
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{
+                "beamjoy.window.main.tabs.settings.sections.nametags.specBgColor"
+                | translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.nametags.specBgColor = $ctrl.resetValues.nametags.specBgColor"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <bj-color-picker
+                    ng-model="$ctrl.settings.nametags.specBgColor"
+                    disabled="$ctrl.settings.nametags.hideNameTags || !$ctrl.settings.nametags.showSpectators"
+                ></bj-color-picker>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" class="settings-category d-flex align-center gap-2">
+            <span>
+                <icon name="camera" class="light"></icon>
+            </span>
+            <h3>
+                {{ "beamjoy.window.main.tabs.settings.sections.freecam.title"|
+                translate }}
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "beamjoy.window.main.tabs.settings.sections.freecam.smooth"|
+                translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle ng-model="$ctrl.settings.freecam.smooth"></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "beamjoy.window.main.tabs.settings.sections.freecam.fov"|
+                translate }}
+            </span>
+        </td>
+        <td colspan="2">
+            <div class="d-flex align-center w-100">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.freecam.fov = $ctrl.resetValues.freecam.fov"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <div class="flex-grow-1">
+                    <div class="d-flex gap-1 align-center">
+                        <span>{{$ctrl.settings.freecam.fov}}°</span>
+                        <bj-slider
+                            min="10"
+                            max="120"
+                            ng-model="$ctrl.settings.freecam.fov"
+                        ></bj-slider>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span>
+                {{ "beamjoy.window.main.tabs.settings.sections.freecam.speed"|
+                translate }}
+            </span>
+        </td>
+        <td colspan="2">
+            <div class="d-flex align-center w-100">
+                <button
+                    class="btn warning"
+                    title="{{ 'beamjoy.common.reset' | translate}}"
+                    ng-click="$ctrl.settings.freecam.speed = $ctrl.resetValues.freecam.speed"
+                >
+                    <icon name="reset" class="small"></icon>
+                </button>
+                <div class="flex-grow-1">
+                    <div class="d-flex gap-1 align-center">
+                        <span>{{$ctrl.settings.freecam.speed}}</span>
+                        <bj-slider
+                            min="2"
+                            max="100"
+                            ng-model="$ctrl.settings.freecam.speed"
+                        ></bj-slider>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

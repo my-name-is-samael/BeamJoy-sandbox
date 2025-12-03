@@ -1,0 +1,29 @@
+<style>
+    bj-color-picker {
+        display: block;
+        width: fit-content;
+    }
+
+    .color-picker-wrapper {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 0.3em;
+    }
+    .color-picker-wrapper:not(.disabled) {
+        cursor: pointer;
+    }
+    .color-picker-wrapper .color-preview {
+        width: 4em;
+        height: 1.5em;
+    }
+</style>
+
+<div
+    class="color-picker-wrapper p-1 w-fitcontent"
+    ng-class="{'disabled': $ctrl.disabled === true}"
+    ng-click="$ctrl.onToggle()"
+>
+    <div
+        class="color-preview"
+        ng-style="{'background-color': $ctrl.ngModel}"
+    ></div>
+</div>

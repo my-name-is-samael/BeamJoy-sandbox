@@ -1,0 +1,216 @@
+<div ng-repeat="group in $ctrl.groups track by $index">
+    <bj-sort-separator
+        ng-hide="$index === 0"
+        group="groups-order"
+        value="{{$index}}"
+    >
+        <hr class="w-100 my-2" />
+    </bj-sort-separator>
+    <bj-accordion id="group-{{group.name}}" no-border-bottom="true">
+        <accordion-title>
+            <div class="d-flex align-center w-fitcontent gap-1">
+                <bj-sort-draggable
+                    ng-hide="$index === 0 || $index === $ctrl.groups.length - 1"
+                    group="groups-order"
+                    ng-update="$ctrl.sortUpdate($index, newValue)"
+                >
+                </bj-sort-draggable>
+                <span ng-class="{danger: $ctrl.errors[group.name].total > 0}">
+                    {{$ctrl.labels[group.name]}}
+                </span>
+                <button
+                    class="btn danger"
+                    ng-hide="!group.canDelete"
+                    ng-click="$ctrl.removeGroup($event, group.name)"
+                >
+                    <icon name="delete"></icon>
+                </button>
+            </div>
+        </accordion-title>
+        <accordion-content>
+            <table>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.vehicleCap"|translate}}
+                    </td>
+                    <td>
+                        <input
+                            class="w-100"
+                            type="number"
+                            ng-model="group.vehicleCap"
+                            min="-1"
+                            max="50"
+                        />
+                        <div ng-hide="!$ctrl.errors[group.name].vehicleCap">
+                            <span class="small danger"
+                                >{{"beamjoy.common.invalid"|translate}}</span
+                            >
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.chatNameColor"|translate}}
+                    </td>
+                    <td>
+                        <div class="d-flex align-center w-fitcontent">
+                            <button
+                                class="btn warning"
+                                title="{{ 'beamjoy.common.reset' | translate}}"
+                                ng-click="group.nameColor = '#ffffff'"
+                            >
+                                <icon name="reset" class="small"></icon>
+                            </button>
+                            <bj-color-picker
+                                ng-model="group.nameColor"
+                            ></bj-color-picker>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.chatTextColor"|translate}}
+                    </td>
+                    <td>
+                        <div class="d-flex align-center w-fitcontent">
+                            <button
+                                class="btn warning"
+                                title="{{ 'beamjoy.common.reset' | translate}}"
+                                ng-click="group.textColor = '#ffffff'"
+                            >
+                                <icon name="reset" class="small"></icon>
+                            </button>
+                            <bj-color-picker
+                                ng-model="group.textColor"
+                            ></bj-color-picker>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.staff"|translate}}
+                    </td>
+                    <td>
+                        <bj-toggle ng-model="group.staff"></bj-toggle>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.banned"|translate}}
+                    </td>
+                    <td>
+                        <bj-toggle ng-model="group.banned"></bj-toggle>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.muted"|translate}}
+                    </td>
+                    <td>
+                        <bj-toggle ng-model="group.muted"></bj-toggle>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.whitelisted"|translate}}
+                    </td>
+                    <td>
+                        <bj-toggle ng-model="group.whitelisted"></bj-toggle>
+                    </td>
+                </tr>
+                <tr
+                    ng-if="(group.permissions.length + group.permissionOptions.length) > 0"
+                >
+                    <td class="text-right">
+                        {{"beamjoy.window.config.tabs.permissions.groups.permissions"|translate}}
+                    </td>
+                    <td>
+                        <ul>
+                            <li
+                                class="d-flex align-center gap-1 pb-1"
+                                ng-repeat="permission in group.permissions"
+                            >
+                                <button
+                                    class="btn"
+                                    ng-click="$ctrl.removePermission(group, permission)"
+                                    title="{{'beamjoy.common.remove'|translate}}"
+                                >
+                                    <icon name="remove" class="danger"></icon>
+                                </button>
+                                <span>{{permission}}</span>
+                            </li>
+                            <li class="d-flex align-center gap-1">
+                                <button
+                                    class="btn success"
+                                    ng-disabled="group.newPermission.length === 0"
+                                    ng-click="$ctrl.addPermission(group)"
+                                >
+                                    <icon name="add"></icon>
+                                </button>
+                                <bj-select
+                                    ng-model="group.newPermission"
+                                    options="group.permissionOptions"
+                                >
+                                </bj-select>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </accordion-content>
+    </bj-accordion>
+</div>
+<hr class="my-1" />
+<bj-accordion id="add-group">
+    <accordion-title>
+        <h4>Create a group</h4>
+    </accordion-title>
+    <accordion-content>
+        <table>
+            <tr>
+                <td class="text-right">Name</td>
+                <td>
+                    <input
+                        type="text"
+                        class="w-100"
+                        ng-model="$ctrl.addGroupData.name"
+                    />
+                    <div ng-hide="!$ctrl.addGroupData.errorName">
+                        <span class="small danger"
+                            >{{"beamjoy.common.invalid"|translate}}</span
+                        >
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button
+                        class="btn success"
+                        ng-disabled="$ctrl.addGroupData.errorName"
+                        ng-click="$ctrl.createGroup()"
+                    >
+                        {{"beamjoy.common.create"|translate}}
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </accordion-content>
+</bj-accordion>
+<div class="d-flex gap-1 pt-1">
+    <button
+        class="btn success w-fitcontent"
+        ng-class="{'disabled': !$ctrl.dirty}"
+        ng-disabled="!$ctrl.dirty || !$ctrl.valid"
+        ng-click="$ctrl.save()"
+    >
+        {{"beamjoy.common.save"|translate}}
+    </button>
+    <button
+        class="btn danger w-fitcontent"
+        ng-class="{'disabled': !$ctrl.dirty}"
+        ng-disabled="!$ctrl.dirty"
+        ng-click="$ctrl.cancel()"
+    >
+        {{"beamjoy.common.cancel"|translate}}
+    </button>
+</div>

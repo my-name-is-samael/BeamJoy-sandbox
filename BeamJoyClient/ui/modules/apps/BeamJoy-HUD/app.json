@@ -1,0 +1,19 @@
+{
+    "domElement": "<span></span>",
+    "name": "beamjoy.window.hud",
+    "types": ["ui.apps.categories.multiplayer"],
+    "css": {
+        "top": "10vh",
+        "left": "22vw",
+        "width": "56vw",
+        "min-width": "20vw",
+        "max-width": "100vw",
+        "height": "15vh",
+        "min-height": "10vh",
+        "max-height": "50vh"
+    },
+    "description": "position for BeamJoy HUD (messages, state icons, ...)",
+    "author": "TontonSamael",
+    "version": "1.0",
+    "directive": "beamjoy-hud"
+}

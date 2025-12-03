@@ -1,0 +1,108 @@
+<style>
+    bj-config-general-intropanel textarea.content {
+        min-height: 3em;
+    }
+    bj-config-general-intropanel img.image-preview {
+        max-height: 15em;
+    }
+</style>
+
+<div ng-hide="$ctrl.imageOptions.length > 0">
+    {{"beamjoy.common.loading"|translate}}
+</div>
+<table ng-hide="$ctrl.imageOptions.length === 0">
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.intropanel.enabled"|translate}}
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.enabled"></bj-toggle>
+        </td>
+    </tr>
+    <tr>
+        <td
+            class="text-right"
+            title="{{'beamjoy.window.config.tabs.general.intropanel.onlyFirstConnection.tooltip'|translate}}"
+        >
+            {{"beamjoy.window.config.tabs.general.intropanel.onlyFirstConnection"|translate}}
+        </td>
+        <td>
+            <bj-toggle ng-model="$ctrl.data.onlyFirstConnection"></bj-toggle>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.intropanel.title"|translate}}
+        </td>
+        <td>
+            <input type="text" class="w-100" ng-model="$ctrl.data.title" />
+        </td>
+    </tr>
+    <tr>
+        <td
+            class="text-right"
+            title="{{'beamjoy.window.config.tabs.general.intropanel.content.tooltip'|translate}}"
+        >
+            {{"beamjoy.window.config.tabs.general.intropanel.content"|translate}}
+        </td>
+        <td>
+            <textarea
+                ng-model="$ctrl.data.content"
+                class="content w-100 h-fitcontent"
+                autoheight
+            ></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.intropanel.image"|translate}}
+        </td>
+        <td>
+            <bj-select ng-model="$ctrl.data.image" options="$ctrl.imageOptions">
+            </bj-select>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <img
+                class="image-preview w-auto"
+                src="../../../gameplay/tutorials/pages/{{$ctrl.data.image}}/image.jpg"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex gap-1">
+                <button
+                    class="btn primary w-fitcontent"
+                    ng-click="$ctrl.preview()"
+                >
+                    {{"beamjoy.common.preview"|translate}}
+                </button>
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn danger w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+                <button
+                    class="btn warning w-fitcontent"
+                    ng-click="$ctrl.reset()"
+                >
+                    {{"beamjoy.common.reset"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>

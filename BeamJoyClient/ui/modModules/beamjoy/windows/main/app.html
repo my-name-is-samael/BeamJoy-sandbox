@@ -1,0 +1,17 @@
+<div id="beamjoy-main" class="position-absolute pointer-events-none">
+    <bj-window
+        label="beamjoy.window.main.title"
+        visible="$ctrl.visible"
+        minimizable="true"
+        closable="$ctrl.closable"
+        on-close="$ctrl.onClose()"
+        background="true"
+    >
+        <bj-tabs
+            tabs="$ctrl.tabs"
+            active-tab-index="$ctrl.activeTabIndex"
+            on-tab-change="$ctrl.onTabChange(tabId)"
+            on-tab-close="$ctrl.onTabClose(tabId)"
+        />
+    </bj-window>
+</div>

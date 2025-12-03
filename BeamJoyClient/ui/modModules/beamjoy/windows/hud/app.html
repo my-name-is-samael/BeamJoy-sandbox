@@ -1,0 +1,69 @@
+<style>
+    #beamjoy-hud .icon-wrapper {
+        aspect-ratio: 1;
+        max-height: 5em;
+    }
+
+    #beamjoy-hud .broadcast {
+        font-family: "Noto Sans", "Noto Sans JP", "Noto Sans KR", "Noto Sans SC",
+            sans-serif;
+        background: transparent;
+        font-weight: bold;
+        color: white;
+        text-align: justify;
+    }
+</style>
+
+<div
+    id="beamjoy-hud"
+    class="position-absolute d-flex flex-column pointer-events-none flex-nowrap"
+>
+    <div class="w-100 h-50 d-flex">
+        <div class="h-100 d-flex align-end">
+            <div class="icon-wrapper h-100 square d-flex">
+                <icon
+                    ng-hide="!$ctrl.iconsData[0]"
+                    name="{{$ctrl.iconsData[0].name}}"
+                    class="h-100 w-auto"
+                    ng-class="$ctrl.iconsData[0].color"
+                ></icon>
+            </div>
+            <div class="icon-wrapper h-100 square d-flex">
+                <icon
+                    ng-hide="!$ctrl.iconsData[1]"
+                    name="{{$ctrl.iconsData[1].name}}"
+                    class="h-100 w-auto"
+                    ng-class="$ctrl.iconsData[1].color"
+                ></icon>
+            </div>
+        </div>
+        <div class="h-100 flex-grow-1 d-flex align-end">
+            <!-- TODO -->
+        </div>
+        <div class="h-100 d-flex align-end">
+            <div class="icon-wrapper h-100 square d-flex">
+                <icon
+                    ng-hide="!$ctrl.iconsData[2]"
+                    name="{{$ctrl.iconsData[2].name}}"
+                    class="h-100 w-auto"
+                    ng-class="$ctrl.iconsData[2].color"
+                ></icon>
+            </div>
+            <div class="icon-wrapper h-100 square d-flex">
+                <icon
+                    ng-hide="!$ctrl.iconsData[3]"
+                    name="{{$ctrl.iconsData[3].name}}"
+                    class="h-100 w-auto"
+                    ng-class="$ctrl.iconsData[3].color"
+                ></icon>
+            </div>
+        </div>
+    </div>
+    <div
+        class="broadcast w-100 h-50 d-flex justify-center align-center"
+        ng-style="{color: $ctrl.textData ? $ctrl.textData.color : undefined, textShadow: $ctrl.textData ? $ctrl.textData.shadow : undefined}"
+        fit-text
+    >
+        {{$ctrl.textData ? $ctrl.textData.message : ""}}
+    </div>
+</div>

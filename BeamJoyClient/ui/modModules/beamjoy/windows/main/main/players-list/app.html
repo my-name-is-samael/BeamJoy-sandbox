@@ -1,0 +1,41 @@
+<div class="players-list" ng-hide="$ctrl.players.length === 0">
+    <h3>{{ "beamjoy.window.main.playerlist.title" | translate}}</h3>
+    <div ng-repeat="player in $ctrl.players">
+        <bj-player-line
+            class="d-flex align-center flex-wrap gap-1 py-1"
+            ng-if="!player.showModeration && !player.showVehicles"
+            player="player"
+        ></bj-player-line>
+        <bj-accordion
+            id="{{player.playerName}}"
+            ng-if="player.showModeration || player.showVehicles"
+        >
+            <accordion-title>
+                <bj-player-line
+                    class="d-flex align-center flex-wrap gap-1 py-1"
+                    player="player"
+                ></bj-player-line>
+            </accordion-title>
+            <accordion-content>
+                <bj-player-moderation
+                    ng-if="player.showModeration"
+                    player="player"
+                ></bj-player-moderation>
+                <div ng-if="player.showVehicles">
+                    <h4>
+                        {{"beamjoy.window.main.playerlist.vehicles.title"|translate}}
+                        <span ng-hide="!player.vehicleInfo"
+                            >{{player.vehicleInfo}}</span
+                        >
+                    </h4>
+                    <bj-vehicle-line
+                        class="d-flex align-center flex-wrap gap-1"
+                        ng-repeat="vehicle in player.vehicles"
+                        vehicle="vehicle"
+                        owner="player"
+                    ></bj-vehicle-line>
+                </div>
+            </accordion-content>
+        </bj-accordion>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<style>
+    bj-toggle .custom-checkbox-wrapper {
+        display: inline-flex;
+        align-items: center;
+        user-select: none;
+    }
+    bj-toggle .custom-checkbox-wrapper:not(.disabled) {
+        cursor: pointer;
+    }
+    bj-toggle .custom-checkbox {
+        width: 1.3em;
+        aspect-ratio: 1;
+        border: 0.15em solid #555;
+        border-radius: 0.3em;
+        background-color: #fff;
+        display: inline-block;
+        position: relative;
+        margin-right: 0.4em;
+        transition: all 0.2s;
+    }
+    bj-toggle .custom-checkbox-wrapper.disabled .custom-checkbox {
+        background-color: #9b9b9b;
+    }
+    bj-toggle .custom-checkbox.checked {
+        background-color: rgb(230, 92, 0);
+        border-color: rgb(230, 92, 0);
+    }
+    bj-toggle .custom-checkbox-wrapper.disabled .custom-checkbox.checked {
+        background-color: rgb(218, 158, 119);
+        border-color: rgb(218, 158, 119);
+    }
+    bj-toggle .custom-checkbox.checked::after {
+        content: "";
+        position: absolute;
+        left: 0.35em;
+        bottom: 0.1em;
+        width: 0.3em;
+        height: 1em;
+        border: solid #fff;
+        border-width: 0 0.2em 0.2em 0;
+        transform: rotate(35deg);
+    }
+</style>
+
+<label
+    class="custom-checkbox-wrapper"
+    ng-class="{ disabled: $ctrl.disabled }"
+    ng-click="$ctrl.toggle()"
+>
+    <span class="custom-checkbox" ng-class="{ checked: $ctrl.ngModel }"></span>
+    <span class="checkbox-label"
+        >{{($ctrl.ngModel ? $ctrl.customEnabled || "beamjoy.common.enabled" :
+        $ctrl.customDisabled || "beamjoy.common.disabled" ) | translate}}</span
+    >
+</label>

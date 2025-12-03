@@ -1,0 +1,211 @@
+<style>
+    bj-player-moderation input[type="text"] {
+        width: 20rem;
+    }
+    bj-player-moderation input[type="number"] {
+        width: 5.5rem;
+    }
+</style>
+
+<div
+    class="d-flex align-center gap-2"
+    ng-if="$ctrl.demoteLabel || $ctrl.promoteLabel"
+>
+    <div class="w-fit-content" ng-if="$ctrl.demoteLabel">
+        <button
+            class="btn danger"
+            ng-click="$ctrl.demote()"
+            title="{{$ctrl.demoteLabel}}"
+        >
+            <icon name="demote"></icon>
+        </button>
+    </div>
+    <div class="w-fit-content" ng-if="$ctrl.promoteLabel">
+        <button
+            class="btn success"
+            ng-click="$ctrl.promote()"
+            title="{{$ctrl.promoteLabel}}"
+        >
+            <icon name="promote"></icon>
+        </button>
+    </div>
+</div>
+
+<table class="w-100 h-fitcontent">
+    <tr ng-if="$ctrl.showMute">
+        <td>
+            <div class="d-flex align-center gap-1 w-fit-content">
+                <span>
+                    {{"beamjoy.window.main.playerlist.moderation.muteReason"|
+                    translate }}
+                </span>
+                <div
+                    class="w-fit-content"
+                    ng-hide="$ctrl.player.muted || !$ctrl.player.muteReason"
+                >
+                    <icon
+                        name="info"
+                        class="info"
+                        title="{{'beamjoy.window.main.playerlist.moderation.previousMuteReason'|translate}} : {{$ctrl.player.muteReason}}"
+                    ></icon>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <input
+                    ng-hide="$ctrl.player.muted"
+                    type="text"
+                    ng-model="$ctrl.muteReason"
+                />
+                <input
+                    ng-hide="!$ctrl.player.muted"
+                    type="text"
+                    ng-model="$ctrl.player.muteReason"
+                    ng-disabled="true"
+                />
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn"
+                    ng-class="{'success': $ctrl.player.muted, 'danger': !$ctrl.player.muted}"
+                    title="{{
+                        $ctrl.player.muted ?
+                        'beamjoy.window.main.playerlist.moderation.unmute' :
+                        'beamjoy.window.main.playerlist.moderation.mute'|translate
+                    }}"
+                    ng-click="$ctrl.mute()"
+                >
+                    <icon name="mute"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+
+    <tr ng-if="$ctrl.showKick">
+        <td>
+            <div class="d-flex align-center gap-1 w-fit-content">
+                <span>
+                    {{"beamjoy.window.main.playerlist.moderation.kickReason"|
+                    translate }}
+                </span>
+                <div class="w-fit-content" ng-hide="!$ctrl.player.kickReason">
+                    <icon
+                        name="info"
+                        class="info"
+                        title="{{'beamjoy.window.main.playerlist.moderation.previousKickReason'|translate}} : {{$ctrl.player.kickReason}}"
+                    ></icon>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <input type="text" ng-model="$ctrl.kickReason" />
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn danger"
+                    title="{{ 'beamjoy.window.main.playerlist.moderation.kick'|translate}}"
+                    ng-click="$ctrl.kick()"
+                >
+                    <icon name="kick"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+
+    <tr ng-if="$ctrl.showBan || $ctrl.showTempban">
+        <td>
+            <div class="d-flex align-center gap-1 w-fit-content">
+                <span>
+                    {{"beamjoy.window.main.playerlist.moderation.banReason"|
+                    translate }}
+                </span>
+                <div class="w-fit-content" ng-hide="!$ctrl.player.banReason">
+                    <icon
+                        name="info"
+                        class="info"
+                        title="{{'beamjoy.window.main.playerlist.moderation.previousBanReason'|translate}}  : {{$ctrl.player.banReason}}"
+                    ></icon>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <input type="text" ng-model="$ctrl.banReason" />
+            </div>
+        </td>
+        <td ng-if="$ctrl.showBan">
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn danger"
+                    title="{{'beamjoy.window.main.playerlist.moderation.ban'|translate}}"
+                    ng-click="$ctrl.ban()"
+                >
+                    <icon name="ban"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr ng-if="$ctrl.showTempban">
+        <td>
+            <span>
+                {{"beamjoy.window.main.playerlist.moderation.tempbanDuration"|
+                translate }}
+            </span>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent gap-1">
+                <input
+                    type="number"
+                    ng-model="$ctrl.tempbanDuration"
+                    min="120"
+                    max="{{60*60*24*30*12}}"
+                />
+                <span ng-if="$ctrl.tempbanDurationLabel.length > 0">
+                    {{$ctrl.tempbanDurationLabel}}
+                </span>
+            </div>
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <button
+                    class="btn danger"
+                    title="{{'beamjoy.window.main.playerlist.moderation.tempban'|translate}}"
+                    ng-click="$ctrl.tempban()"
+                >
+                    <icon name="tempban"></icon>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr ng-if="$ctrl.showTempban">
+        <td></td>
+        <td colspan="2">
+            <div class="d-flex align-center w-fitcontent gap-1">
+                <!-- prettier-ignore -->
+                <button class="btn danger" ng-click="$ctrl.updateTempbanDuration(-60*60*24*30)" title="{{'beamjoy.time.month'|translate}}">-1M</button>
+                <!-- prettier-ignore -->
+                <button class="btn danger" ng-click="$ctrl.updateTempbanDuration(-60*60*24)" title="{{'beamjoy.time.day'|translate}}">-1d</button>
+                <!-- prettier-ignore -->
+                <button class="btn danger" ng-click="$ctrl.updateTempbanDuration(-60*60)" title="{{'beamjoy.time.hour'|translate}}">-1h</button>
+                <!-- prettier-ignore -->
+                <button class="btn danger" ng-click="$ctrl.updateTempbanDuration(-60)" title="{{'beamjoy.time.minute'|translate}}">-1m</button>
+                <!-- prettier-ignore -->
+                <button class="btn warning" ng-click="$ctrl.resetTempbanDuration()">{{"beamjoy.common.reset"|translate}}</button>
+                <!-- prettier-ignore -->
+                <button class="btn success" ng-click="$ctrl.updateTempbanDuration(60)" title="{{'beamjoy.time.minute'|translate}}">+1m</button>
+                <!-- prettier-ignore -->
+                <button class="btn success" ng-click="$ctrl.updateTempbanDuration(60*60)" title="{{'beamjoy.time.hour'|translate}}">+1h</button>
+                <!-- prettier-ignore -->
+                <button class="btn success" ng-click="$ctrl.updateTempbanDuration(60*60*24)" title="{{'beamjoy.time.day'|translate}}">+1d</button>
+                <!-- prettier-ignore -->
+                <button class="btn success" ng-click="$ctrl.updateTempbanDuration(60*60*24*30)" title="{{'beamjoy.time.month'|translate}}">+1M</button>
+            </div>
+        </td>
+    </tr>
+</table>

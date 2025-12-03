@@ -1,0 +1,34 @@
+<table>
+    <tr ng-repeat="perm in $ctrl.perms">
+        <td>{{perm.name}}</td>
+        <td ng-repeat="group in $ctrl.orderedGroups track by $index">
+            <button
+                class="btn w-fitcontent"
+                ng-disabled="!$ctrl.owner && ($ctrl.selfGroupIndex <= perm.groupIndex || $ctrl.selfGroupIndex <= $index)"
+                ng-class="{'success': perm.groupIndex <= $index, 'danger': perm.groupIndex > $index}"
+                ng-click="perm.groupIndex = $index"
+            >
+                {{group.label}}
+            </button>
+        </td>
+    </tr>
+</table>
+
+<div class="d-flex gap-1 pt-1">
+    <button
+        class="btn success w-fitcontent"
+        ng-class="{'disabled': !$ctrl.dirty}"
+        ng-disabled="!$ctrl.dirty"
+        ng-click="$ctrl.save()"
+    >
+        {{"beamjoy.common.save"|translate}}
+    </button>
+    <button
+        class="btn danger w-fitcontent"
+        ng-class="{'disabled': !$ctrl.dirty}"
+        ng-disabled="!$ctrl.dirty"
+        ng-click="$ctrl.cancel()"
+    >
+        {{"beamjoy.common.cancel"|translate}}
+    </button>
+</div>

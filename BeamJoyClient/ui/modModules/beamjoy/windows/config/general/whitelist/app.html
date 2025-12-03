@@ -1,0 +1,75 @@
+<table class="w-100">
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.whitelist.status"|translate}}
+        </td>
+        <td>
+            <bj-toggle
+                ng-if="$ctrl.canToggleState"
+                ng-model="$ctrl.data.state"
+            ></bj-toggle>
+            <span ng-if="!$ctrl.canToggleState">
+                {{$ctrl.data.state?'beamjoy.common.enabled':'beamjoy.common.disabled'|translate}}
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.whitelist.players"|translate}}
+        </td>
+        <td>
+            <button
+                class="btn success"
+                ng-disabled="!$ctrl.canAddAll"
+                ng-click="$ctrl.addAll($event)"
+            >
+                {{"beamjoy.window.config.tabs.general.whitelist.addAll"|translate}}
+            </button>
+        </td>
+    </tr>
+    <tr ng-if="$ctrl.playerList.length > 0">
+        <td></td>
+        <td>
+            <ul>
+                <li
+                    class="pt-1 d-flex gap-1 w-fitcontent"
+                    ng-repeat="player in $ctrl.playerList"
+                >
+                    <button
+                        class="btn danger"
+                        ng-class="{'success': player.state === false}"
+                        title="{{player.state?'beamjoy.common.remove':'beamjoy.common.add'|translate}}"
+                        ng-click="$ctrl.togglePlayer($event, player.playerName)"
+                    >
+                        <icon name="{{player.state?'demote':'promote'}}"></icon>
+                    </button>
+                    <span>{{player.playerName}}</span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td
+            class="text-right"
+            title="{{'beamjoy.window.config.tabs.general.whitelist.addOffline.tooltip'|translate}}"
+        >
+            {{"beamjoy.window.config.tabs.general.whitelist.addOffline"|translate}}
+        </td>
+        <td>
+            <input type="text" class="w-100" ng-model="$ctrl.offlinePlayer" />
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <button
+                class="btn success"
+                ng-disabled="!$ctrl.validOfflinePlayer"
+                title="{{'beamjoy.common.add'|translate}}"
+                ng-click="$ctrl.addOfflinePlayer($event)"
+            >
+                <icon name="add"></icon>
+            </button>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,19 @@
+{
+    "domElement": "<span></span>",
+    "name": "beamjoy.window.main",
+    "types": ["ui.apps.categories.multiplayer"],
+    "css": {
+        "top": "4vh",
+        "left": ".5vw",
+        "width": "21vw",
+        "min-width": "10vw",
+        "max-width": "40vw",
+        "height": "30vh",
+        "min-height": "20vh",
+        "max-height": "80vh"
+    },
+    "description": "Main Window position for BeamJoy UI (playerlist, activity data, ...)",
+    "author": "TontonSamael",
+    "version": "1.0",
+    "directive": "beamjoy-main"
+}

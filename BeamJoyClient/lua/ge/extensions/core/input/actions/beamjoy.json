@@ -1,0 +1,3 @@
+{
+    "toggleBeamJoyMenu":{"cat":"beamjoy", "order": 128, "ctx": "tlua", "onDown"  :"extensions.beamjoy_imgui_menu.toggle()", "actionMap": "Global", "title": "ui.inputActions.beamjoy.toggleMenu.title", "desc": "ui.inputActions.beamjoy.toggleMenu.description" }
+}

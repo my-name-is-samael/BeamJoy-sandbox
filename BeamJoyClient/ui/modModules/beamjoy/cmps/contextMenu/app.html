@@ -1,0 +1,36 @@
+<style>
+    .context-background {
+        background-color: rgba(0, 0, 0, 0.01);
+    }
+
+    .context-window {
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .context-elem {
+        color: white;
+    }
+    .context-elem:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div
+    class="context-background position-fixed pos-t-0 pos-l-0 w-100 h-100"
+    ng-hide="!$ctrl.actions"
+    ng-click="$ctrl.clickOut($event)"
+>
+    <div
+        class="context-window position-fixed w-fitcontent h-fitcontent d-flex flex-column"
+        ng-style="{top: $ctrl.position.y + '%', left: $ctrl.position.x + '%', transform: $ctrl.transform}"
+    >
+        <div
+            class="context-elem cursor-pointer px-2 py-1"
+            ng-repeat="action in $ctrl.actions"
+            ng-click="$ctrl.action($event, $index)"
+        >
+            {{ action | translate }}
+        </div>
+    </div>
+</div>

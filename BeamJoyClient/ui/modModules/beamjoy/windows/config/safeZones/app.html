@@ -1,0 +1,80 @@
+<style>
+    bj-config-safe-zones .zone {
+        transition: all 0.2s ease-in-out;
+    }
+    bj-config-safe-zones .zone:hover,
+    bj-config-safe-zones .zone.active {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    bj-config-safe-zones .zone.active .zone-name {
+        color: #edff00;
+    }
+</style>
+
+<div class="d-flex gap-1 mb-2 align-center">
+    <button
+        class="btn info"
+        ng-class="{'success': $ctrl.tool === 'translate'}"
+        ng-click="$ctrl.changeTool($event, 'translate')"
+        title="{{'beamjoy.window.config.editor.gizmo.translate' | translate}}"
+    >
+        <icon name="translate"></icon>
+    </button>
+    <button
+        class="btn info"
+        ng-class="{'success': $ctrl.tool === 'rotate'}"
+        ng-click="$ctrl.changeTool($event, 'rotate')"
+        title="{{'beamjoy.window.config.editor.gizmo.rotate' | translate}}"
+    >
+        <icon name="rotate"></icon>
+    </button>
+    <button
+        class="btn info"
+        ng-class="{'success': $ctrl.tool === 'scale'}"
+        ng-click="$ctrl.changeTool($event, 'scale')"
+        title="{{'beamjoy.window.config.editor.gizmo.scale' | translate}}"
+    >
+        <icon name="scale"></icon>
+    </button>
+    <vr></vr>
+    <button
+        class="btn success"
+        ng-click="$ctrl.createZone($event)"
+        title="{{'beamjoy.activities.tabs.safeZones.createZone' | translate}}"
+    >
+        <icon name="add"></icon>
+    </button>
+    <button
+        class="btn success"
+        ng-click="$ctrl.save($event)"
+        ng-disabled="!$ctrl.dirty"
+        title="{{'beamjoy.common.save' | translate}}"
+    >
+        <icon name="save"></icon>
+    </button>
+</div>
+
+<div
+    class="zone d-flex p-1 px-2 gap-1 cursor-pointer"
+    ng-repeat="zone in $ctrl.zones"
+    ng-class="{active: $index === $ctrl.activeZone}"
+    ng-click="$ctrl.selectZone($event, $index)"
+>
+    <span class="zone-name flex-grow-1 d-flex align-center">
+        {{"beamjoy.activities.safeZone.label"|translate}} {{$index + 1}}
+    </span>
+    <button
+        class="btn success"
+        ng-click="$ctrl.duplicateZone($event, $index)"
+        title="{{'beamjoy.activities.tabs.safeZones.duplicateZone' | translate}}"
+    >
+        <icon name="duplicate"></icon>
+    </button>
+    <button
+        class="btn danger"
+        ng-click="$ctrl.deleteZone($event, $index)"
+        title="{{'beamjoy.activities.tabs.safeZones.deleteZone' | translate}}"
+    >
+        <icon name="delete"></icon>
+    </button>
+</div>

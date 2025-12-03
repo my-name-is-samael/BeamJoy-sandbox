@@ -1,0 +1,9 @@
+<md-select
+    ng-if="$ctrl.renderKey"
+    ng-model="$ctrl.ngModel"
+    ng-change="$ctrl.handleChange()"
+>
+    <md-option ng-repeat="opt in $ctrl.options" ng-value="opt.value">
+        {{::opt.label|translate}}
+    </md-option>
+</md-select>

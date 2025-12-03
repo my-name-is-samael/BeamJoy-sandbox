@@ -1,0 +1,106 @@
+<table>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.broadcasts.enabled"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center w-fitcontent">
+                <bj-toggle ng-model="$ctrl.data.enabled"></bj-toggle>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.broadcasts.delay"|translate}}
+        </td>
+        <td>
+            <div class="d-flex align-center gap-1 w-fitcontent">
+                <input
+                    type="number"
+                    ng-model="$ctrl.data.delay"
+                    min="30"
+                    max="1800"
+                />
+                <span ng-class="{danger: $ctrl.computed.delayError}"
+                    >{{$ctrl.computed.delayPreview}}</span
+                >
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right">
+            {{"beamjoy.window.config.tabs.general.broadcasts.messages"|translate}}
+        </td>
+        <td>
+            <div
+                class="w-100"
+                ng-repeat="msg in $ctrl.data.messages track by $index"
+            >
+                <bj-accordion id="broadcast-message-{{$index}}">
+                    <accordion-title>
+                        <div class="d-flex align-center gap-1 w-fitcontent">
+                            <span
+                                ng-class="{danger: $ctrl.computed.messagesError[$index]}"
+                            >
+                                {{"beamjoy.window.config.tabs.general.broadcasts.message"|translate}}
+                                {{$index + 1}}
+                            </span>
+                            <button
+                                class="btn danger"
+                                ng-click="$ctrl.removeMessage($event, $index)"
+                                title="{{'beamjoy.common.remove'|translate}}"
+                            >
+                                <icon name="delete"></icon>
+                            </button>
+                        </div>
+                    </accordion-title>
+                    <accordion-content>
+                        <ul>
+                            <li
+                                ng-repeat="el in msg"
+                                class="d-flex align-center gap-1 w-100"
+                            >
+                                <span>{{el.lang}}</span>
+                                <input
+                                    type="text"
+                                    ng-model="el.message"
+                                    class="flex-grow-1"
+                                />
+                            </li>
+                        </ul>
+                    </accordion-content>
+                </bj-accordion>
+            </div>
+            <div class="w-100">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-click="$ctrl.addMessage()"
+                >
+                    {{"beamjoy.common.add"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex gap-1">
+                <button
+                    class="btn success w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty || !$ctrl.valid}"
+                    ng-disabled="!$ctrl.dirty || !$ctrl.valid"
+                    ng-click="$ctrl.save()"
+                >
+                    {{"beamjoy.common.save"|translate}}
+                </button>
+                <button
+                    class="btn danger w-fitcontent"
+                    ng-class="{'disabled': !$ctrl.dirty}"
+                    ng-disabled="!$ctrl.dirty"
+                    ng-click="$ctrl.cancel()"
+                >
+                    {{"beamjoy.common.cancel"|translate}}
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>
