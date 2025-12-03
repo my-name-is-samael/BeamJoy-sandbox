@@ -1,7 +1,12 @@
 # BeamJoy-Sandbox
-
+<p align="center">
+  <img src="./assets/cover.jpg" style="width: 49%; height: auto;" />
+</p>
+  
+<p align="center">
 This mod is a more refined version of the vanilla BeamMP (sandbox) experience. It allows for moderation and server administration in sandbox mode.<br/>
 Since this mod provides a sandbox experience, it should be compatible with all of your previously installed mods (with minor exceptions).
+</p>
 
 <p align="center">
 ⚠️ This mod is not compatible with any other BeamJoy version. ⚠️<br/>
