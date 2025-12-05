@@ -26,7 +26,7 @@ Since this mod provides a sandbox experience, it should be compatible with all o
   - Pursuits and arrests (random events when driving a police vehicle)
 - Top screen menu bar with editable keybind (F4)
 - Group system with permissions and configuration UI
-- Players moderation tools (mute/kick/ban/temporary ban/remove vehicle(s)/teleportation/...)
+- Players moderation tools (mute/kick/ban/temporary ban/remove vehicle(s)/...)
 - Players database UI to manage offline players
 - Built-in mods analyzer and modded maps detector
 - In-game map switch with permission:
