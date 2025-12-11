@@ -138,10 +138,10 @@ local function overrideResetInputs()
     extensions.core_vehicle_manager.reloadAllVehicles = function()
         M.onReset(M.RESET.RELOAD_ALL)
     end
-    extensions.commands.dropPlayerAtCamera = function()
+    extensions.commands.dropPlayerAtCamera = function(localPID)
         override(M.RESET.DROP_AT_CAMERA)
     end
-    extensions.commands.dropPlayerAtCameraNoReset = function()
+    extensions.commands.dropPlayerAtCameraNoReset = function(localPID)
         override(M.RESET.DROP_AT_CAMERA_NO_RESET)
     end
     extensions.spawn.teleportToLastRoad = function(veh, options)
@@ -273,9 +273,9 @@ local function onReset(resetType, release)
         elseif resetType == M.RESET.LOAD_HOME and mpVeh then
             mpVeh.veh:queueLuaCommand("recovery.reset.loadHome()")
         elseif resetType == M.RESET.DROP_AT_CAMERA then
-            M.baseFunctions.extensions.commands.dropPlayerAtCamera()
+            M.baseFunctions.extensions.commands.dropPlayerAtCamera(0)
         elseif resetType == M.RESET.DROP_AT_CAMERA_NO_RESET then
-            M.baseFunctions.extensions.commands.dropPlayerAtCameraNoReset()
+            M.baseFunctions.extensions.commands.dropPlayerAtCameraNoReset(0)
         elseif resetType == M.RESET.RESET_PHYSICS then
             M.baseFunctions.resetGameplay(0)
         elseif resetType == M.RESET.RELOAD then
