@@ -95,15 +95,15 @@ local function onInit()
             replaceVehicle = extensions.core_vehicles.replaceVehicle,
             removeCurrent = extensions.core_vehicles.removeCurrent,
         },
-        ui_vehicleSelector_filters = {
-            passesFilters = extensions.ui_vehicleSelector_filters.passesFilters,
+        ui_vehicleSelector_general = {
+            passesFilters = extensions.ui_vehicleSelector_general.passesFilters,
         },
     }
     core_vehicles.cloneCurrent = cloneCurrent
     core_vehicles.spawnNewVehicle = spawnNewVehicle
     core_vehicles.replaceVehicle = replaceVehicle
     core_vehicles.removeCurrent = removeCurrent
-    extensions.ui_vehicleSelector_filters.passesFilters = passesFilters
+    extensions.ui_vehicleSelector_general.passesFilters = passesFilters
 end
 
 local function resetCache()

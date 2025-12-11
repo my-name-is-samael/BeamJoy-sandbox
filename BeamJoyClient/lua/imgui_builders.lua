@@ -547,10 +547,6 @@ EndTable = function()
     ui_imgui.EndTable()
 end
 
----@param name string
-SetupWindow = function(name)
-    beamjoy_imgui_manager.GUI.setupWindow(name)
-end
 ---@param title string
 ---@param openPtr {[0]: boolean}? window not closeable if nil
 ---@param flags integer?
@@ -568,7 +564,6 @@ local baseFlagsWindow = Table({
 RenderWindow = function(ctxt, title, data)
     data.flags = data.flags or {}
 
-    SetupWindow(data.name)
     if not table.includes(data.flags, ui_imgui.WindowFlags_AlwaysAutoResize) then
         if data.size then
             SetNextWindowSize(ImVec2(data.size.x, data.size.y))
